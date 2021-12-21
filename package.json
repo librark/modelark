@@ -1,0 +1,34 @@
+{
+  "name": "modelark",
+  "version": "0.0.1",
+  "description": "Models Definition and Application Data Access Library",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings' npx jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowark/modelarkjs.git"
+  },
+  "keywords": [
+    "model",
+    "database",
+    "in-memory",
+    "postgresql",
+    "json"
+  ],
+  "author": "Knowark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knowark/modelarkjs/issues"
+  },
+  "jest": {
+    "transform": {}
+  },
+  "homepage": "https://github.com/knowark/modelarkjs#readme",
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "standard": "^16.0.4"
+  }
+}
