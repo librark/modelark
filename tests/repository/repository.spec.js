@@ -3,6 +3,7 @@ import { Repository } from '../../src/repository/repository.js'
 
 describe('Repository', () => {
   let repository = null
+
   beforeEach(function () {
     repository = new Repository()
   })

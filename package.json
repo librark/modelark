@@ -26,6 +26,11 @@
   "jest": {
     "transform": {}
   },
+  "standard": {
+    "ignore": [
+      "src/common/*.js"
+    ]
+  },
   "homepage": "https://github.com/knowark/modelarkjs#readme",
   "devDependencies": {
     "jest": "^27.4.5",
