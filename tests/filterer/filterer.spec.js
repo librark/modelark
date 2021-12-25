@@ -3,11 +3,11 @@ import { Filterer } from '../../src/filterer/fiterer.js'
 
 describe('Fiterer', () => {
   let filterer = null
-  beforeEach(function () {
+  beforeEach(() => {
     filterer = new Filterer()
   })
 
-  it('converts a filter tuple into a comparison expression', function () {
+  it('converts a filter tuple into a comparison expression', () => {
     const testTuples = [
       [['field', '=', 99], obj => obj.field === 99, { field: 99 }],
       [['field', '!=', 99], obj => obj.field !== 99, { field: 99 }],
@@ -45,7 +45,7 @@ describe('Fiterer', () => {
     }
   })
 
-  it('joins by default multiple terms with an and', function () {
+  it('joins by default multiple terms with an and', () => {
     const stack = [obj => obj.field2 !== 8, obj => obj.field === 7]
 
     const expectedFunction = obj => {
@@ -62,7 +62,7 @@ describe('Fiterer', () => {
     )
   })
 
-  it('parses a full stack of comparison terms with operators', function () {
+  it('parses a full stack of comparison terms with operators', () => {
     const testDomains = [
       [[['field', '=', 7]], obj => obj.field === 7, { field: 7 }],
       [[['field2', '!=', 8]], obj => obj.field2 !== 8, { field2: 8 }],
@@ -108,13 +108,13 @@ describe('Fiterer', () => {
     }
   })
 
-  it('Domain is []', function () {
+  it('Domain is []', () => {
     const domain = []
     const result = filterer.parse(domain)
     expect(result({})).toBe(true)
   })
 
-  it('Domain contains ilike operator', function () {
+  it('Domain contains ilike operator', () => {
     const domains = [[[['field', 'ilike', 7]]]]
     for (const domain of domains) {
       const result = filterer.parse(domain[0])
