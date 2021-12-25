@@ -1,11 +1,11 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Repository } from '../../src/repository'
+import { MemoryRepository } from '../../src/repository'
 
-describe('Repository', () => {
+describe('MemoryRepository', () => {
   let repository = null
 
   beforeEach(function () {
-    repository = new Repository()
+    repository = new MemoryRepository()
   })
 
   it('is defined', function () {
