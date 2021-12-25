@@ -1,15 +1,15 @@
 /**
- * @typedef { import("./connection.js").Connection } Connector
+ * @typedef { import("./connection.js").Connection } Connection
  */
 
 export class Connector {
   /** @return {Connection} */
-  get () {
-
+  async get () {
+    throw new Error('Not implemented')
   }
 
   /** @param {Connection} */
-  put (connection) {
-
+  async put (connection) {
+    throw new Error('Not implemented')
   }
 }

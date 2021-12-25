@@ -10,4 +10,21 @@ describe('Connector', () => {
   it('is defined', () => {
     expect(connector).toBeTruthy()
   })
+
+  it('It defines a "get" method', async () => {
+    try {
+      await connector.get()
+    } catch (error) {
+      expect(error.message).toBe('Not implemented')
+    }
+  })
+
+  it('It defines a "put" method', async () => {
+    try {
+      const mockConnection = {}
+      await connector.put(mockConnection)
+    } catch (error) {
+      expect(error.message).toBe('Not implemented')
+    }
+  })
 })

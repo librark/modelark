@@ -10,4 +10,11 @@ describe('Connection', () => {
   it('is defined', () => {
     expect(connection).toBeTruthy()
   })
+
+  it('defines a query method', async () => {
+    const statement = 'SELECT * FROM table WHERE field = {value}'
+    const parameters = { value: 77 }
+    const result = await connection.query(statement, parameters)
+    expect(Array.isArray(result)).toBe(true)
+  })
 })
