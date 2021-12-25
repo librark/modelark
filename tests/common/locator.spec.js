@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Locator } from '../../src/common/locator.js'
+import { Locator, DefaultLocator } from '../../src/common'
 
 describe('Locator', () => {
   let locator = null
@@ -25,5 +25,24 @@ describe('Locator', () => {
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }
+  })
+})
+
+describe('DefaultLocator', () => {
+  let locator = null
+  beforeEach(function () {
+    locator = new DefaultLocator()
+  })
+
+  it('can be instantiated', () => {
+    expect(locator).toBeTruthy()
+  })
+
+  it('defines a "reference" method', () => {
+    expect(locator.reference()).toBe('default')
+  })
+
+  it('defines a "location" method', () => {
+    expect(locator.location()).toBe('default')
   })
 })

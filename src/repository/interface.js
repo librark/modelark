@@ -1,4 +1,6 @@
+
 export class RepositoryInterface {
+  /** @param {Entity | Array<Entity>} items  */
   async add (item) {
     throw new Error('Not implemented')
   }
