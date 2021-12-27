@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { uuid, Entity } from '../../src/common'
+import { uuid, Entity, DefaultLocator } from '../../src/common'
 import { MemoryRepository } from '../../src/repository'
 
 describe('MemoryRepository', () => {
@@ -13,6 +13,12 @@ describe('MemoryRepository', () => {
 
   it('is defined', function () {
     expect(repository).toBeTruthy()
+  })
+
+  it('is defined with default values', function () {
+    const repository = new MemoryRepository()
+    expect(repository.locator instanceof DefaultLocator).toBe(true)
+    expect(repository.clock).toBe(Date)
   })
 
   it('adds an entity to its data store', async () => {
