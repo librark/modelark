@@ -1,4 +1,5 @@
 import { DefaultLocator } from '../common'
+import { Filterer } from '../filterer'
 import { Repository } from './repository.js'
 
 /**
@@ -7,10 +8,15 @@ import { Repository } from './repository.js'
  */
 
 export class MemoryRepository extends Repository {
-  constructor ({ locator = new DefaultLocator(), clock = Date } = {}) {
+  constructor ({
+    locator = new DefaultLocator(),
+    filterer = new Filterer(),
+    clock = Date
+  } = {}) {
     super()
     this.locator = /** @type {Locator} */ (locator)
     this.clock = clock
+    this.filterer = filterer
     this.data = /** @type {Object<string, object>} */ (new Proxy({}, {
       get: (target, name) => name in target
         ? target[name]
@@ -44,5 +50,19 @@ export class MemoryRepository extends Repository {
     }
 
     return result
+  }
+
+  /** @param {Entity | Array<Entity>} items @return {Array<Entity>} */
+  async search (domain) {
+    const items = []
+    const filter = this.filterer.parse(domain)
+    const store = this.data[this.locator.location()]
+    for (const item of Object.values(store)) {
+      if (filter(item)) {
+        items.push(item)
+      }
+    }
+
+    return items
   }
 }
