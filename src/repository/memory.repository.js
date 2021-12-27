@@ -32,4 +32,17 @@ export class MemoryRepository extends Repository {
 
     return items
   }
+
+  /** @param {Entity | Array<Entity>} items @return {Array<Entity>} */
+  async remove (items) {
+    items = Array.isArray(items) ? items : [items]
+    const store = this.data[this.locator.location()]
+    const result = []
+    for (const item of items) {
+      result.push(store[item.id])
+      delete store[item.id]
+    }
+
+    return result
+  }
 }
