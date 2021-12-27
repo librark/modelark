@@ -67,4 +67,25 @@ describe('MemoryRepository', () => {
     expect(records[0].id).toBe(id)
     expect(Object.values(repository.data.default).length).toBe(0)
   })
+
+  it('removes multiple entities from its data store', async () => {
+    const id1 = uuid()
+    const id2 = uuid()
+    const item1 = new Entity({ id: id1, name: 'John Doe' })
+    const item2 = new Entity({ id: id2, name: 'Richard Roe' })
+
+    repository.data.default[id1] = item1
+    repository.data.default[id2] = item2
+
+    const items = [item1, item2]
+
+    expect(Object.values(repository.data.default).length).toBe(2)
+
+    const records = await repository.remove(items)
+
+    expect(records.length).toBe(2)
+    expect(records[0].id).toBe(id1)
+    expect(records[1].id).toBe(id2)
+    expect(Object.values(repository.data.default).length).toBe(0)
+  })
 })
