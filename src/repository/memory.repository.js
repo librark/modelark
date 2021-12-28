@@ -52,15 +52,21 @@ export class MemoryRepository extends Repository {
     return result
   }
 
-  /** @param {Entity | Array<Entity>} items @return {Array<Entity>} */
-  async search (domain) {
-    const items = []
+  /** @param { Array<Any> } domain
+   *  @param {{ limit: number | null }} limit
+    * @return {Array<Entity>} */
+  async search (domain, { limit = null } = {}) {
+    let items = []
     const filter = this.filterer.parse(domain)
     const store = this.data[this.locator.location()]
     for (const item of Object.values(store)) {
       if (filter(item)) {
         items.push(item)
       }
+    }
+
+    if (limit != null) {
+      items = items.slice(0, limit)
     }
 
     return items

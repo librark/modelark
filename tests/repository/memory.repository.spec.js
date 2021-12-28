@@ -113,4 +113,20 @@ describe('MemoryRepository', () => {
     expect(result.length).toBe(1)
     expect(result[0].id).toBe(id1)
   })
+
+  it('searches for entities and limits the results', async () => {
+    const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
+    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
+    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
+    repository.data.default[item1.id] = item1
+    repository.data.default[item2.id] = item2
+    repository.data.default[item3.id] = item3
+
+    const result = await repository.search([], { limit: 2 })
+
+    expect(Array.isArray(result)).toBe(true)
+    expect(result.length).toBe(2)
+    expect(result[0].id).toBe(item1.id)
+    expect(result[1].id).toBe(item2.id)
+  })
 })
