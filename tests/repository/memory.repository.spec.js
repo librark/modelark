@@ -159,4 +159,19 @@ describe('MemoryRepository', () => {
     expect(result[1].name).toBe('Mark Moe')
     expect(result[2].name).toBe('Richard Roe')
   })
+
+  it('searches and sorts the results in descending order', async () => {
+    const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
+    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
+    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
+    repository.data.default[item1.id] = item1
+    repository.data.default[item2.id] = item2
+    repository.data.default[item3.id] = item3
+
+    const result = await repository.search([], { order: 'name desc' })
+
+    expect(result[0].name).toBe('Richard Roe')
+    expect(result[1].name).toBe('Mark Moe')
+    expect(result[2].name).toBe('John Doe')
+  })
 })

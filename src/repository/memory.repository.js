@@ -76,8 +76,12 @@ export class MemoryRepository extends Repository {
     }
 
     if (order != null) {
-      const field = order.toLowerCase().split(',')
-      items = items.sort((a, b) => a[field] > b[field] ? 1 : -1)
+      const parts = order.trim().toLowerCase().split(',')
+      for (const part of parts) {
+        const [field, direction] = part.split(' ')
+        const sign = direction === 'desc' ? -1 : 1
+        items = items.sort((a, b) => a[field] > b[field] ? sign : -sign)
+      }
     }
 
     return items
