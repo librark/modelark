@@ -53,9 +53,9 @@ export class MemoryRepository extends Repository {
   }
 
   /** @param { Array<Any> } domain
-   *  @param {{ limit: number | null }} limit
+   *  @param {{ limit: number | null, offset: number | null }}
     * @return {Array<Entity>} */
-  async search (domain, { limit = null } = {}) {
+  async search (domain, { limit = null, offset = null } = {}) {
     let items = []
     const filter = this.filterer.parse(domain)
     const store = this.data[this.locator.location()]
@@ -63,6 +63,10 @@ export class MemoryRepository extends Repository {
       if (filter(item)) {
         items.push(item)
       }
+    }
+
+    if (offset != null) {
+      items = items.slice(offset)
     }
 
     if (limit != null) {
