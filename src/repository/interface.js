@@ -15,8 +15,10 @@ export class RepositoryInterface {
   }
 
   /** @param { Array<Any> } domain
-   *  @param {{ limit: number | null, offset: number | null }}
-    * @return {Array<Entity>} */
+   *  @param {{
+   *    limit: number | null, offset: number | null, order: string | null
+   *  }}
+   * @return {Array<Entity>} */
   async search (domain, { limit = null, offset = null } = {}) {
     throw new Error('Not implemented')
   }

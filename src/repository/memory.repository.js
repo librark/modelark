@@ -53,9 +53,11 @@ export class MemoryRepository extends Repository {
   }
 
   /** @param { Array<Any> } domain
-   *  @param {{ limit: number | null, offset: number | null }}
-    * @return {Array<Entity>} */
-  async search (domain, { limit = null, offset = null } = {}) {
+   *  @param {{
+   *    limit: number | null, offset: number | null, order: string | null
+   *  }}
+   * @return {Array<Entity>} */
+  async search (domain, { limit = null, offset = null, order = null } = {}) {
     let items = []
     const filter = this.filterer.parse(domain)
     const store = this.data[this.locator.location()]
@@ -71,6 +73,11 @@ export class MemoryRepository extends Repository {
 
     if (limit != null) {
       items = items.slice(0, limit)
+    }
+
+    if (order != null) {
+      const field = order.toLowerCase().split(',')
+      items = items.sort((a, b) => a[field] > b[field] ? 1 : -1)
     }
 
     return items
