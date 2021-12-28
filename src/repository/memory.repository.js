@@ -76,12 +76,17 @@ export class MemoryRepository extends Repository {
     }
 
     if (order != null) {
-      const parts = order.trim().toLowerCase().split(',')
+      const parts = order.toLowerCase().split(',')
+      const comparators = []
       for (const part of parts) {
-        const [field, direction] = part.split(' ')
+        const [field, direction] = part.trim().split(' ')
         const sign = direction === 'desc' ? -1 : 1
-        items = items.sort((a, b) => a[field] > b[field] ? sign : -sign)
+        comparators.push({ field, sign })
       }
+      items = items.sort((a, b) => comparators.reduce(
+        (previous, current) => previous || String(
+          a[current.field]).localeCompare(
+          b[current.field], undefined, { numeric: true }) * current.sign, 0))
     }
 
     return items

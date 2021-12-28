@@ -7,6 +7,7 @@ class Alpha extends Entity {
   constructor (attributes) {
     super(attributes)
     this.name = attributes.name
+    this.value = attributes.value || 0
   }
 }
 
@@ -161,17 +162,23 @@ describe('MemoryRepository', () => {
   })
 
   it('searches and sorts the results in descending order', async () => {
-    const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
-    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
-    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
+    const item1 = new Alpha({ id: uuid(), name: 'John Doe', value: 0 })
+    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe', value: 0 })
+    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe', value: 0 })
+    const item4 = new Alpha({ id: uuid(), name: 'Larry Loe', value: 0 })
+    const item5 = new Alpha({ id: uuid(), name: 'Peter Poe', value: 0 })
     repository.data.default[item1.id] = item1
     repository.data.default[item2.id] = item2
     repository.data.default[item3.id] = item3
+    repository.data.default[item4.id] = item4
+    repository.data.default[item5.id] = item5
 
-    const result = await repository.search([], { order: 'name desc' })
+    const result = await repository.search([], { order: 'value, name desc' })
 
     expect(result[0].name).toBe('Richard Roe')
-    expect(result[1].name).toBe('Mark Moe')
-    expect(result[2].name).toBe('John Doe')
+    expect(result[1].name).toBe('Peter Poe')
+    expect(result[2].name).toBe('Mark Moe')
+    expect(result[3].name).toBe('Larry Loe')
+    expect(result[4].name).toBe('John Doe')
   })
 })
