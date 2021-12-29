@@ -1,6 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { uuid, Entity, DefaultLocator } from '../../src/common'
-import { Filterer } from '../../src/filterer'
+import { uuid, Entity, Filterer, DefaultLocator } from '../../src/common'
 import { MemoryRepository } from '../../src/repository'
 
 class Alpha extends Entity {

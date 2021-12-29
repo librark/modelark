@@ -1,5 +1,4 @@
-import { DefaultLocator } from '../common'
-import { Filterer } from '../filterer'
+import { DefaultLocator, Filterer } from '../common'
 import { Repository } from './repository.js'
 
 /**
