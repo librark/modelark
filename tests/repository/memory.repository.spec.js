@@ -1,5 +1,7 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { uuid, Entity, Filterer, DefaultLocator } from '../../src/common'
+import {
+  uuid, Entity, Filterer, DefaultLocator, MemoryStorer
+} from '../../src/common'
 import { MemoryRepository } from '../../src/repository'
 
 class Alpha extends Entity {
@@ -27,6 +29,7 @@ describe('MemoryRepository', () => {
     const repository = new MemoryRepository()
     expect(repository.locator instanceof DefaultLocator).toBe(true)
     expect(repository.filterer instanceof Filterer).toBe(true)
+    expect(repository.storer instanceof MemoryStorer).toBe(true)
     expect(repository.clock).toBe(Date)
   })
 
@@ -42,7 +45,7 @@ describe('MemoryRepository', () => {
     expect(record.id).toEqual(id)
     expect(record.createdAt).toBe(mockTimestamp)
     expect(record.updatedAt).toBe(mockTimestamp)
-    expect(repository.data.default[id]).toBe(record)
+    expect(repository.storer.data.default[id]).toBe(record)
   })
 
   it('adds multiple entities to its data store', async () => {
@@ -58,8 +61,8 @@ describe('MemoryRepository', () => {
 
     expect(Array.isArray(records)).toBe(true)
     expect(records.length).toBe(2)
-    expect(repository.data.default[id1]).toBe(record1)
-    expect(repository.data.default[id2]).toBe(record2)
+    expect(repository.storer.data.default[id1]).toBe(record1)
+    expect(repository.storer.data.default[id2]).toBe(record2)
   })
 
   it('removes an entity from its data store', async () => {
