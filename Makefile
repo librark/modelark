@@ -10,3 +10,8 @@ test: ## Run the project's tests
 
 standard: ## Format the project's source code with StandardJS
 	npx standard --fix
+
+gitmessage: ## Add .gitmessage file as git commit template
+	touch .gitmessage
+	echo "\n# commit message\n.gitmessage" >> .gitignore
+	git config commit.template .gitmessage
