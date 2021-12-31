@@ -11,7 +11,7 @@ describe('Connector', () => {
     expect(connector).toBeTruthy()
   })
 
-  it('It defines a "get" method', async () => {
+  it('defines a "get" method', async () => {
     try {
       await connector.get()
     } catch (error) {
@@ -19,7 +19,7 @@ describe('Connector', () => {
     }
   })
 
-  it('It defines a "put" method', async () => {
+  it('defines a "put" method', async () => {
     try {
       const mockConnection = {}
       await connector.put(mockConnection)
