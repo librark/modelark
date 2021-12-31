@@ -18,11 +18,6 @@ export class MemoryRepository extends Repository {
     this.clock = clock
     this.filterer = filterer
     this.storer = storer
-    this.data = /** @type {Object<string, object>} */ (new Proxy({}, {
-      get: (target, name) => name in target
-        ? target[name]
-        : (target[name] = {})
-    }))
   }
 
   /** @param {Entity | Array<Entity>} items @return {Array<Entity>} */
@@ -69,8 +64,10 @@ export class MemoryRepository extends Repository {
   async search (domain, { limit = null, offset = null, order = null } = {}) {
     let items = []
     const filter = this.filterer.parse(domain)
-    const store = this.data[this.locator.location()]
-    for (const item of Object.values(store)) {
+    const location = this.locator.location()
+    const data = await this.storer.retrieve(location)
+
+    for (const item of Object.values(data)) {
       if (filter(item)) {
         items.push(item)
       }

@@ -106,8 +106,8 @@ describe('MemoryRepository', () => {
     const id2 = uuid()
     const item1 = new Alpha({ id: id1, name: 'John Doe' })
     const item2 = new Alpha({ id: id2, name: 'Richard Roe' })
-    repository.data.default[id1] = item1
-    repository.data.default[id2] = item2
+    repository.storer.data.default[id1] = item1
+    repository.storer.data.default[id2] = item2
 
     const domain = [['name', '=', 'John Doe']]
     const result = await repository.search(domain)
@@ -121,9 +121,9 @@ describe('MemoryRepository', () => {
     const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
     const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
     const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
-    repository.data.default[item1.id] = item1
-    repository.data.default[item2.id] = item2
-    repository.data.default[item3.id] = item3
+    repository.storer.data.default[item1.id] = item1
+    repository.storer.data.default[item2.id] = item2
+    repository.storer.data.default[item3.id] = item3
 
     const result = await repository.search([], { limit: 2 })
 
@@ -137,9 +137,9 @@ describe('MemoryRepository', () => {
     const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
     const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
     const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
-    repository.data.default[item1.id] = item1
-    repository.data.default[item2.id] = item2
-    repository.data.default[item3.id] = item3
+    repository.storer.data.default[item1.id] = item1
+    repository.storer.data.default[item2.id] = item2
+    repository.storer.data.default[item3.id] = item3
 
     const result = await repository.search([], { offset: 2 })
 
@@ -152,9 +152,9 @@ describe('MemoryRepository', () => {
     const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
     const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
     const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
-    repository.data.default[item1.id] = item1
-    repository.data.default[item2.id] = item2
-    repository.data.default[item3.id] = item3
+    repository.storer.data.default[item1.id] = item1
+    repository.storer.data.default[item2.id] = item2
+    repository.storer.data.default[item3.id] = item3
 
     const result = await repository.search([], { order: 'name' })
 
@@ -169,11 +169,11 @@ describe('MemoryRepository', () => {
     const item3 = new Alpha({ id: uuid(), name: 'Mark Moe', value: 9 })
     const item4 = new Alpha({ id: uuid(), name: 'Larry Loe', value: 0 })
     const item5 = new Alpha({ id: uuid(), name: 'Peter Poe', value: 0 })
-    repository.data.default[item1.id] = item1
-    repository.data.default[item2.id] = item2
-    repository.data.default[item3.id] = item3
-    repository.data.default[item4.id] = item4
-    repository.data.default[item5.id] = item5
+    repository.storer.data.default[item1.id] = item1
+    repository.storer.data.default[item2.id] = item2
+    repository.storer.data.default[item3.id] = item3
+    repository.storer.data.default[item4.id] = item4
+    repository.storer.data.default[item5.id] = item5
 
     const result = await repository.search([], { order: 'value, name desc' })
 
