@@ -97,4 +97,19 @@ export class MemoryRepository extends Repository {
 
     return items
   }
+
+  /** @param { Array<Any> } domain
+   * @return {number} */
+  async count (domain) {
+    const filter = this.filterer.parse(domain)
+    const location = this.locator.location()
+    const data = await this.storer.retrieve(location)
+    let count = 0
+
+    for (const item of Object.values(data)) {
+      if (filter(item)) count += 1
+    }
+
+    return count
+  }
 }

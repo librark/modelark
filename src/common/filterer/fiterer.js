@@ -8,11 +8,19 @@ export class Filterer {
       '>=': (field, value) => (obj) => obj[field] >= value,
       '<=': (field, value) => (obj) => obj[field] <= value,
       in: (field, value) => (obj) => (value.includes(obj[field])),
-      like: (field, value) => (obj) => (obj[field].indexOf(
-        value.replace(/%/g, '')) >= 0),
-      ilike: (field, value) => (obj) => (obj[field].toLowerCase().indexOf(
-        value.replace(/%/g, '').toLowerCase()) >= 0),
-      contains: (field, value) => (obj) => (obj[field].includes(value))
+      contains: (field, value) => (obj) => (obj[field].includes(value)),
+      like: (field, value) => {
+        const regex = RegExp(`^${value}$`.replace(
+          /%/g, '.*').replace(/_/g, '.'))
+        const filter = (obj) => regex.test(obj[field])
+        return filter
+      },
+      ilike: (field, value) => {
+        const regex = RegExp(`^${value}$`.replace(
+          /%/g, '.*').replace(/_/g, '.').toLowerCase())
+        const filter = (obj) => regex.test(obj[field].toLowerCase())
+        return filter
+      }
     }
     this.binaryOperators = {
       '&': (expression1, expression2) =>
@@ -29,7 +37,7 @@ export class Filterer {
 
   parse (domain) {
     if (!domain || !domain.length) {
-      return (obj) => true
+      return (_) => true
     }
     let stack = []
     for (const item of domain.reverse()) {
