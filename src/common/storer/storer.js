@@ -1,11 +1,13 @@
 export class Storer {
   /** @param {string} key @returns {Object}  */
   async retrieve (key) {
+    console.assert([key])
     throw new Error('Not implemented')
   }
 
   /** @param {string} key @param {Object} value  */
   async store (key, value) {
+    console.assert([key, value])
     throw new Error('Not implemented')
   }
 }
