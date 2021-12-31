@@ -1,6 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-// import { Filterer } from '../../../src/common/filterer/fiterer.js'
-import { Filterer } from '../../../src/common/filterer'
+import { Filterer } from '../../../lib/common/filterer'
 
 describe('Fiterer', () => {
   let filterer = null

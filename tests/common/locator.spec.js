@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Locator, DefaultLocator } from '../../src/common'
+import { Locator, DefaultLocator } from '../../lib/common'
 
 describe('Locator', () => {
   let locator = null

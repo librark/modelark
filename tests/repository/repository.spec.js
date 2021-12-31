@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Repository } from '../../src/repository'
+import { Repository } from '../../lib/repository'
 
 describe('Repository', () => {
   let repository = null

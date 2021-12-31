@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Storer, MemoryStorer } from '../../../src/common/storer'
+import { Storer, MemoryStorer } from '../../../lib/common/storer'
 
 describe('Storer', () => {
   let storer = /** @type {Storer} */ (null)

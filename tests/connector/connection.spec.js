@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Connection } from '../../src/connector'
+import { Connection } from '../../lib/connector'
 
 describe('Connection', () => {
   let connection = null

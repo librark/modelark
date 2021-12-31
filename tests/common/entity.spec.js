@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
-import { Entity } from '../../src/common/entity.js'
+import { Entity } from '../../lib/common/entity.js'
 
 describe('Entity', () => {
   let entity = null
