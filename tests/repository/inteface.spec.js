@@ -13,7 +13,8 @@ describe('RepositoryInterface', () => {
 
   it('It defines an "add" method', async () => {
     try {
-      await repositoryInteface.add()
+      const item = { id: '123' }
+      await repositoryInteface.add(item)
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }
@@ -21,7 +22,8 @@ describe('RepositoryInterface', () => {
 
   it('It defines a "remove" method', async () => {
     try {
-      await repositoryInteface.remove()
+      const item = { id: '123' }
+      await repositoryInteface.remove(item)
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }
@@ -29,7 +31,8 @@ describe('RepositoryInterface', () => {
 
   it('It defines a "count" method', async () => {
     try {
-      await repositoryInteface.count()
+      const domain = []
+      await repositoryInteface.count(domain)
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }
@@ -37,7 +40,8 @@ describe('RepositoryInterface', () => {
 
   it('It defines a "search" method', async () => {
     try {
-      await repositoryInteface.search()
+      const domain = []
+      await repositoryInteface.search(domain)
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }

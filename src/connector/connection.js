@@ -3,6 +3,7 @@ export class Connection {
    * @param {object} parameters
    * @return {Array<object>} */
   async query (statement, parameters) {
+    console.assert([statement, parameters])
     return []
   }
 }

@@ -10,6 +10,7 @@ export class Connector {
 
   /** @param {Connection} */
   async put (connection) {
+    console.assert([connection])
     throw new Error('Not implemented')
   }
 }
