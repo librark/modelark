@@ -11,6 +11,9 @@ test: ## Run the project's tests
 standard: ## Format the project's source code with StandardJS
 	npx standard --fix
 
+push: ## Push git repository with its tags
+	git push && git push --tags
+
 gitmessage: ## Add .gitmessage file as git commit template
 	touch .gitmessage
 	echo "\n# commit message\n.gitmessage" >> .gitignore
