@@ -33,7 +33,6 @@ describe('JsonStorer', () => {
     const data = {
       [itemId]: { id: itemId, name: 'John Doe' }
     }
-
     const file = path.join(directory, storeId, storer.collection)
     await fs.mkdir(path.parse(file).dir, { recursive: true })
     await fs.writeFile(`${file}.json`, JSON.stringify(data))
@@ -51,18 +50,20 @@ describe('JsonStorer', () => {
     expect(store).toMatchObject({})
   })
 
-  // it('defines an "store" method', async () => {
-  // const itemId = 'ac283465-2fec-4902-84dd-d497af0aae04'
-  // const data = {
-  // [itemId]: {
-  // id: itemId,
-  // name: 'John Doe'
-  // }
-  // }
-  // const storeId = '4d68cd64-d4fd-4d36-adf8-8efefd226a9a'
+  it('defines an "store" method', async () => {
+    const itemId = 'ac283465-2fec-4902-84dd-d497af0aae04'
+    const data = {
+      [itemId]: {
+        id: itemId,
+        name: 'John Doe'
+      }
+    }
+    const storeId = '4d68cd64-d4fd-4d36-adf8-8efefd226a9a'
 
-  // await storer.store(storeId, data)
+    await storer.store(storeId, data)
 
-  // expect(storer.data[storeId]).toBe(data)
-  // })
+    const file = path.join(directory, storeId, storer.collection)
+    const store = JSON.parse(await fs.readFile(`${file}.json`))
+    expect(store).toEqual(data)
+  })
 })
