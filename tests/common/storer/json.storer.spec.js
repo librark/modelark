@@ -22,6 +22,12 @@ describe('JsonStorer', () => {
     expect(storer).toBeTruthy()
   })
 
+  it('can be instantiated with default values', () => {
+    const storer = new JsonStorer()
+    expect(storer.directory).toBe('data')
+    expect(storer.collection).toBe('')
+  })
+
   it('holds the given collection string', () => {
     expect(storer.directory).toBe(directory)
     expect(storer.collection).toBe('orders')
