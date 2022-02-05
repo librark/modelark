@@ -18,7 +18,7 @@ describe('MemoryRepository', () => {
 
   beforeEach(function () {
     const mockDate = { now: () => mockTimestamp * 1000 }
-    repository = new MemoryRepository({ clock: mockDate })
+    repository = new MemoryRepository({ model: Alpha, clock: mockDate })
   })
 
   it('is defined', function () {
@@ -27,6 +27,7 @@ describe('MemoryRepository', () => {
 
   it('is defined with default values', function () {
     const repository = new MemoryRepository()
+    expect(repository.model instanceof Entity).toBe(true)
     expect(repository.locator instanceof DefaultLocator).toBe(true)
     expect(repository.filterer instanceof Filterer).toBe(true)
     expect(repository.storer instanceof MemoryStorer).toBe(true)
