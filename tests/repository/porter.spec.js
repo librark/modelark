@@ -20,8 +20,16 @@ describe('Porter', () => {
     expect(porter).toBeTruthy()
   })
 
+  it('can be instantiated without respositories', () => {
+    porter = new Porter()
+
+    expect(porter).toBeTruthy()
+    expect(() => porter.get('Alpha')).toThrow(
+      "A repository for 'Alpha' has not been provided.")
+  })
+
   it('gets the repository associated to the given model', () => {
-    const repository = porter.get(Alpha)
+    const repository = porter.get('Alpha')
 
     expect(repository.model).toBe(Alpha)
   })
@@ -31,7 +39,7 @@ describe('Porter', () => {
 
     porter.put(betaRepository)
 
-    const repository = porter.get(Beta)
+    const repository = porter.get('Beta')
     expect(repository.model).toBe(Beta)
     expect(repository).toBe(betaRepository)
   })
