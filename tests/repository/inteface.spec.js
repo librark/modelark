@@ -14,6 +14,7 @@ describe('RepositoryInterface', () => {
   it('It defines an static "model" property', async () => {
     try {
       const model = repositoryInteface.model
+      expect(model).toBeTruthy()
     } catch (error) {
       expect(error.message).toBe('Not implemented')
     }
