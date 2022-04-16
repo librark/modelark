@@ -26,4 +26,11 @@ describe('Common', () => {
       expect(decoded).toEqual(uuid)
     }
   })
+
+  it('provides encoding functions returning null on fail', () => {
+    expect(uuid32encode('non_uuid')).toBeNull()
+    expect(uuid32decode('non_base32')).toBeNull()
+    expect(uuid32encode('1078ff3f-132f-458e-84c2-02d743243f2d')).not.toBeNull()
+    expect(uuid32decode('ogf3vju4pf8m789gg2qt1i8fpd')).not.toBeNull()
+  })
 })
