@@ -27,7 +27,7 @@ describe('MemoryRepository', () => {
 
   it('is defined with default values', function () {
     const repository = new MemoryRepository()
-    expect(repository.model instanceof Entity).toBe(true)
+    expect(repository.model).toBe(Entity)
     expect(repository.locator instanceof DefaultLocator).toBe(true)
     expect(repository.filterer instanceof Filterer).toBe(true)
     expect(repository.storer instanceof MemoryStorer).toBe(true)
