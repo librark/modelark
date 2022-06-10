@@ -126,4 +126,34 @@ describe('SqlRepository', () => {
       'editor', 'editor', 'Jean Foe'
     ])
   })
+
+  it('removes an entity from its data store', async () => {
+    const item = new CustomEntity({ id: 'C001', name: 'John Doe' })
+
+    const records = await repository.remove(item)
+
+    const [connection] = repository.connector.connections
+    expect(records.length).toBe(1)
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('DELETE FROM elements WHERE id IN ($1)\n' +
+        'RETURNING *;\n'
+      ).trim())
+    expect(connection.parameters[0]).toEqual(['C001'])
+  })
+
+  it('removes multiple entities from its data store', async () => {
+    const records = await repository.remove([
+      new CustomEntity({ id: 'C001', name: 'John Doe' }),
+      new CustomEntity({ id: 'C002', name: 'Jane Tro' }),
+      new CustomEntity({ id: 'C003', name: 'Jean Foe' })
+    ])
+
+    const [connection] = repository.connector.connections
+    expect(records.length).toBe(3)
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('DELETE FROM elements WHERE id IN ($1, $2, $3)\n' +
+        'RETURNING *;\n'
+      ).trim())
+    expect(connection.parameters[0]).toEqual(['C001', 'C002', 'C003'])
+  })
 })
