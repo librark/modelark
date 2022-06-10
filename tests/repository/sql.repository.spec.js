@@ -55,7 +55,8 @@ describe('SqlRepository', () => {
     })
   })
 
-  it('is defined', function () {
+  it('can be instantiated', function () {
+    const repository = new SqlRepository()
     expect(repository).toBeTruthy()
   })
 
@@ -90,6 +91,39 @@ describe('SqlRepository', () => {
     expect(connection.parameters[0]).toEqual([
       'C001', '', 1656116959, 1656116959,
       'editor', 'editor', 'John Doe'
+    ])
+  })
+
+  it('adds multiple entities to its data store', async () => {
+    const records = await repository.add([
+      new CustomEntity({ id: 'C001', name: 'John Doe' }),
+      new CustomEntity({ id: 'C002', name: 'Jane Tro' }),
+      new CustomEntity({ id: 'C003', name: 'Jean Foe' })
+    ])
+
+    const [connection] = repository.connector.connections
+    expect(Array.isArray(records)).toBe(true)
+    expect(records.length).toBe(3)
+    expect(repository.connector.connections.length).toEqual(1)
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('INSERT INTO elements (id, status, created_at, ' +
+        'updated_at, created_by, updated_by, name) VALUES\n' +
+        '($1, $2, $3, $4, $5, $6, $7),\n' +
+        '($8, $9, $10, $11, $12, $13, $14),\n' +
+        '($15, $16, $17, $18, $19, $20, $21)\n' +
+        'ON CONFLICT (id) DO UPDATE SET\n' +
+        'status=excluded.status, created_at=excluded.created_at, ' +
+        'updated_at=excluded.updated_at, created_by=excluded.created_by, ' +
+        'updated_by=excluded.updated_by, name=excluded.name\n' +
+        'RETURNING *;\n'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([
+      'C001', '', 1656116959, 1656116959,
+      'editor', 'editor', 'John Doe',
+      'C002', '', 1656116959, 1656116959,
+      'editor', 'editor', 'Jane Tro',
+      'C003', '', 1656116959, 1656116959,
+      'editor', 'editor', 'Jean Foe'
     ])
   })
 })
