@@ -79,7 +79,7 @@ describe('SqlRepository', () => {
     expect(record.id).toEqual(id)
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('INSERT INTO elements (id, status, created_at, ' +
+      dedent('INSERT INTO namespace.elements (id, status, created_at, ' +
         'updated_at, created_by, updated_by, name) VALUES\n' +
         '($1, $2, $3, $4, $5, $6, $7)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
@@ -106,7 +106,7 @@ describe('SqlRepository', () => {
     expect(records.length).toBe(3)
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('INSERT INTO elements (id, status, created_at, ' +
+      dedent('INSERT INTO namespace.elements (id, status, created_at, ' +
         'updated_at, created_by, updated_by, name) VALUES\n' +
         '($1, $2, $3, $4, $5, $6, $7),\n' +
         '($8, $9, $10, $11, $12, $13, $14),\n' +
@@ -135,7 +135,8 @@ describe('SqlRepository', () => {
     const [connection] = repository.connector.connections
     expect(records.length).toBe(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('DELETE FROM elements WHERE id IN ($1)\n' +
+      dedent('DELETE FROM namespace.elements\n' +
+        'WHERE id IN ($1)\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual(['C001'])
@@ -151,7 +152,8 @@ describe('SqlRepository', () => {
     const [connection] = repository.connector.connections
     expect(records.length).toBe(3)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('DELETE FROM elements WHERE id IN ($1, $2, $3)\n' +
+      dedent('DELETE FROM namespace.elements\n' +
+        'WHERE id IN ($1, $2, $3)\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual(['C001', 'C002', 'C003'])
