@@ -182,21 +182,41 @@ describe('SqlRepository', () => {
   })
 
   it('searches all records and limits them', async () => {
-    // repository.connection = new MockConnector([
-    // { id: 'C001', name: 'John Doe' },
-    // { id: 'C002', name: 'Jane Tro' },
-    // { id: 'C003', name: 'Jean Foe' }
-    // ])
-
-    const result = await repository.search([], { limit: 2 })
+    await repository.search([], { limit: 2 })
 
     const [connection] = repository.connector.connections
-    expect(result.every(
-      item => item.constructor.name === 'CustomEntity')).toBeTruthy()
     expect(dedent(connection.statements[0]).trim()).toEqual(
       dedent('SELECT * FROM namespace.elements\n' +
         'WHERE 1 = 1\n' +
+        '\n' +
         'LIMIT 2'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([])
+  })
+
+  it('searches all records and offsets them', async () => {
+    await repository.search([], { offset: 2 })
+
+    const [connection] = repository.connector.connections
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('SELECT * FROM namespace.elements\n' +
+        'WHERE 1 = 1\n' +
+        '\n' +
+        '\n' +
+        'OFFSET 2'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([])
+  })
+
+  it('searches all records and orders them', async () => {
+    const order = 'createdAt DESC, id ASC'
+    await repository.search([], { order })
+
+    const [connection] = repository.connector.connections
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('SELECT * FROM namespace.elements\n' +
+        'WHERE 1 = 1\n' +
+        'ORDER BY created_at desc, id asc'
       ).trim())
     expect(connection.parameters[0]).toEqual([])
   })
