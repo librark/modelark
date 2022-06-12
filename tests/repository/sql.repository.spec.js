@@ -220,4 +220,16 @@ describe('SqlRepository', () => {
       ).trim())
     expect(connection.parameters[0]).toEqual([])
   })
+
+  it('searches a specific domain', async () => {
+    const domain = [['createdAt', '>', 0], ['name', '=', 'John']]
+    await repository.search(domain)
+
+    const [connection] = repository.connector.connections
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('SELECT * FROM namespace.elements\n' +
+        'WHERE created_at > $1 AND name = $2 \n'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([0, 'John'])
+  })
 })
