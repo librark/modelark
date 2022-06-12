@@ -181,21 +181,22 @@ describe('SqlRepository', () => {
     expect(connection.parameters[0]).toEqual([])
   })
 
-  it('searches all records', async () => {
-    repository.connection = new MockConnector([
-      { id: 'C001', name: 'John Doe' },
-      { id: 'C002', name: 'Jane Tro' },
-      { id: 'C003', name: 'Jean Foe' }
-    ])
+  it('searches all records and limits them', async () => {
+    // repository.connection = new MockConnector([
+    // { id: 'C001', name: 'John Doe' },
+    // { id: 'C002', name: 'Jane Tro' },
+    // { id: 'C003', name: 'Jean Foe' }
+    // ])
 
-    const result = await repository.search([])
+    const result = await repository.search([], { limit: 2 })
 
     const [connection] = repository.connector.connections
     expect(result.every(
       item => item.constructor.name === 'CustomEntity')).toBeTruthy()
     expect(dedent(connection.statements[0]).trim()).toEqual(
       dedent('SELECT * FROM namespace.elements\n' +
-        'WHERE 1 = 1'
+        'WHERE 1 = 1\n' +
+        'LIMIT 2'
       ).trim())
     expect(connection.parameters[0]).toEqual([])
   })
