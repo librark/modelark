@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from '@jest/globals'
 import {
-  uuid, dedent, DefaultLocator, Entity
+  dedent, DefaultLocator, Entity
 } from '../../lib/common/index.js'
 import { Connector, Connection } from '../../lib/connector/index.js'
 import { SqlRepository } from '../../lib/repository'
@@ -13,26 +13,29 @@ class CustomEntity extends Entity {
 }
 
 class MockConnection extends Connection {
-  constructor () {
+  constructor (result = []) {
     super()
     this.statements = []
     this.parameters = []
+    this.result = result
   }
 
   async query (statement, parameters) {
     this.statements.push(statement)
     this.parameters.push(parameters)
+    return this.result
   }
 }
 
 class MockConnector extends Connector {
-  constructor () {
+  constructor (result = []) {
     super()
     this.connections = []
+    this.result = []
   }
 
   async get () {
-    const connection = new MockConnection()
+    const connection = new MockConnection(this.result)
     this.connections.push(connection)
     return connection
   }
@@ -157,5 +160,43 @@ describe('SqlRepository', () => {
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual(['C001', 'C002', 'C003'])
+  })
+
+  it('searches all records', async () => {
+    repository.connection = new MockConnector([
+      { id: 'C001', name: 'John Doe' },
+      { id: 'C002', name: 'Jane Tro' },
+      { id: 'C003', name: 'Jean Foe' }
+    ])
+
+    const result = await repository.search([])
+
+    const [connection] = repository.connector.connections
+    expect(result.every(
+      item => item.constructor.name === 'CustomEntity')).toBeTruthy()
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('SELECT * FROM namespace.elements\n' +
+        'WHERE 1 = 1'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([])
+  })
+
+  it('searches all records', async () => {
+    repository.connection = new MockConnector([
+      { id: 'C001', name: 'John Doe' },
+      { id: 'C002', name: 'Jane Tro' },
+      { id: 'C003', name: 'Jean Foe' }
+    ])
+
+    const result = await repository.search([])
+
+    const [connection] = repository.connector.connections
+    expect(result.every(
+      item => item.constructor.name === 'CustomEntity')).toBeTruthy()
+    expect(dedent(connection.statements[0]).trim()).toEqual(
+      dedent('SELECT * FROM namespace.elements\n' +
+        'WHERE 1 = 1'
+      ).trim())
+    expect(connection.parameters[0]).toEqual([])
   })
 })
