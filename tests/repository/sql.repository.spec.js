@@ -43,7 +43,7 @@ class MockConnector extends Connector {
 
 describe('SqlRepository', () => {
   let repository = null
-  const mockTimestamp = 1654460843
+  const mockTimestamp = new Date(1654460843 * 1000)
 
   beforeEach(function () {
     const model = CustomEntity
@@ -51,7 +51,7 @@ describe('SqlRepository', () => {
       { reference: 'editor', location: 'namespace' })
     const connector = new MockConnector()
     const collection = 'elements'
-    const clock = { now: () => mockTimestamp * 1000 }
+    const clock = () => mockTimestamp
 
     repository = new SqlRepository({
       model, collection, locator, connector, clock
@@ -71,7 +71,8 @@ describe('SqlRepository', () => {
 
   it('adds an entity to its data store', async () => {
     const id = 'C001'
-    const item = new CustomEntity({ id: id, name: 'John Doe' })
+    const item = new CustomEntity(
+      { id: id, createdAt: mockTimestamp, name: 'John Doe' })
 
     const records = await repository.add(item)
 
@@ -92,16 +93,31 @@ describe('SqlRepository', () => {
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
-      'C001', '', 1656116959, 1656116959,
+      'C001', '', mockTimestamp, mockTimestamp,
       'editor', 'editor', 'John Doe'
     ])
   })
 
+  it('sets the update time as create time if not truthy', async () => {
+    const item = new CustomEntity({ name: 'John Doe' })
+    item.createdAt = 0
+
+    const records = await repository.add(item)
+
+    const [record] = records
+
+    expect(records.length).toBe(1)
+    expect(record.createdAt).toEqual(record.updatedAt)
+  })
+
   it('adds multiple entities to its data store', async () => {
     const records = await repository.add([
-      new CustomEntity({ id: 'C001', name: 'John Doe' }),
-      new CustomEntity({ id: 'C002', name: 'Jane Tro' }),
-      new CustomEntity({ id: 'C003', name: 'Jean Foe' })
+      new CustomEntity(
+        { id: 'C001', createdAt: mockTimestamp, name: 'John Doe' }),
+      new CustomEntity(
+        { id: 'C002', createdAt: mockTimestamp, name: 'Jane Tro' }),
+      new CustomEntity(
+        { id: 'C003', createdAt: mockTimestamp, name: 'Jean Foe' })
     ])
 
     const [connection] = repository.connector.connections
@@ -121,11 +137,11 @@ describe('SqlRepository', () => {
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
-      'C001', '', 1656116959, 1656116959,
+      'C001', '', mockTimestamp, mockTimestamp,
       'editor', 'editor', 'John Doe',
-      'C002', '', 1656116959, 1656116959,
+      'C002', '', mockTimestamp, mockTimestamp,
       'editor', 'editor', 'Jane Tro',
-      'C003', '', 1656116959, 1656116959,
+      'C003', '', mockTimestamp, mockTimestamp,
       'editor', 'editor', 'Jean Foe'
     ])
   })

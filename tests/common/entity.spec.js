@@ -13,8 +13,8 @@ describe('Entity', () => {
 
   it('defines an entity common attributes', () => {
     expect(entity.status).toBe('')
-    expect(entity.createdAt).toBe(0)
-    expect(entity.updatedAt).toBe(0)
+    expect(entity.createdAt instanceof Date).toBeTruthy()
+    expect(entity.updatedAt instanceof Date).toBeTruthy()
     expect(entity.createdBy).toBe('')
     expect(entity.updatedBy).toBe('')
   })

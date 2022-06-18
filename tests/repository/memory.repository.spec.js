@@ -14,10 +14,10 @@ class Alpha extends Entity {
 
 describe('MemoryRepository', () => {
   let repository = null
-  const mockTimestamp = 1640446104
+  const mockTimestamp = new Date(1640446104 * 1000)
 
   beforeEach(function () {
-    const mockDate = { now: () => mockTimestamp * 1000 }
+    const mockDate = () => mockTimestamp
     repository = new MemoryRepository({ model: Alpha, clock: mockDate })
   })
 
@@ -31,12 +31,13 @@ describe('MemoryRepository', () => {
     expect(repository.locator instanceof DefaultLocator).toBe(true)
     expect(repository.filterer instanceof Filterer).toBe(true)
     expect(repository.storer instanceof MemoryStorer).toBe(true)
-    expect(repository.clock).toBe(Date)
+    expect(repository.clock).toBeTruthy()
   })
 
   it('adds an entity to its data store', async () => {
     const id = uuid()
-    const item = new Alpha({ id: id, name: 'John Doe' })
+    const item = new Alpha(
+      { id: id, createdAt: mockTimestamp, name: 'John Doe' })
     const records = await repository.add(item)
 
     const [record] = records
@@ -64,6 +65,41 @@ describe('MemoryRepository', () => {
     expect(records.length).toBe(2)
     expect(repository.storer.data.default[id1]).toBe(record1)
     expect(repository.storer.data.default[id2]).toBe(record2)
+  })
+
+  it('replaces entities in the data store', async () => {
+    const id1 = uuid()
+    const items = [
+      new Alpha({ id: id1, name: 'John Doe' })
+    ]
+    await new Promise(resolve => setTimeout(resolve, 100))
+    repository.clock = () => new Date()
+    expect(items[0].createdAt).toEqual(items[0].updatedAt)
+    let records = await repository.add(items)
+    const [record1] = records
+    expect(Array.isArray(records)).toBe(true)
+    expect(records.length).toBe(1)
+    expect(record1.createdAt).not.toEqual(record1.updatedAt)
+    record1.name = 'Johnathan Doe'
+
+    records = await repository.add([record1])
+
+    const [updatedRecord] = records
+    expect(records.length).toBe(1)
+    expect(updatedRecord.name).not.toEqual('John Doe')
+    expect(updatedRecord.updatedAt).not.toEqual(updatedRecord.createdAt)
+  })
+
+  it('sets the update time as create time if not truthy', async () => {
+    const item = new Alpha({ id: uuid(), name: 'John Doe' })
+    item.createdAt = 0
+
+    const records = await repository.add(item)
+
+    const [record] = records
+
+    expect(records.length).toBe(1)
+    expect(record.createdAt).toEqual(record.updatedAt)
   })
 
   it('removes an entity from its data store', async () => {
