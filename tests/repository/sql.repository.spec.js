@@ -50,11 +50,11 @@ describe('SqlRepository', () => {
     const locator = new DefaultLocator(
       { reference: 'editor', location: 'namespace' })
     const connector = new MockConnector()
-    const table = 'elements'
+    const collection = 'elements'
     const clock = { now: () => mockTimestamp * 1000 }
 
     repository = new SqlRepository({
-      model, locator, connector, table, clock
+      model, collection, locator, connector, clock
     })
   })
 

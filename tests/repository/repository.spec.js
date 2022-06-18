@@ -13,6 +13,7 @@ class ConcreteRepository extends Repository {
   constructor (attributes = {}) {
     super()
     this._model = attributes.model
+    this._collection = attributes.collection
     this._searchResult = attributes.searchResult
     this._searchArguments = []
   }
@@ -109,13 +110,14 @@ describe('Repository', () => {
 
   it('can initialize entities if not found', async () => {
     const model = ConcreteEntity
+    const collection = 'concrete_entities'
     const searchResult = [
       new ConcreteEntity({ id: 'C001' }),
       new ConcreteEntity({ id: 'C002' }),
       new ConcreteEntity({ id: 'C003' })
     ]
     const concreteRepository = new ConcreteRepository(
-      { model, searchResult })
+      { model, collection, searchResult })
     const records = [{ id: 'C002' }, { id: 'C003' }, { id: 'C004' }]
 
     const found = await concreteRepository.find(records, { init: true })
@@ -123,5 +125,6 @@ describe('Repository', () => {
     expect(found[0].id).toEqual('C002')
     expect(found[1].id).toEqual('C003')
     expect(found[2].id).toEqual('C004')
+    expect(concreteRepository.collection).toEqual('concrete_entities')
   })
 })

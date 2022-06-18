@@ -20,6 +20,15 @@ describe('RepositoryInterface', () => {
     }
   })
 
+  it('It defines an static "collection" property', async () => {
+    try {
+      const collection = repositoryInteface.collection
+      expect(collection).toBeTruthy()
+    } catch (error) {
+      expect(error.message).toBe('Not implemented')
+    }
+  })
+
   it('It defines an "add" method', async () => {
     try {
       const item = { id: '123' }
