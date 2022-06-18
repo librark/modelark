@@ -47,15 +47,6 @@ describe('RepositoryInterface', () => {
     }
   })
 
-  it('It defines a "count" method', async () => {
-    try {
-      const domain = []
-      await repositoryInteface.count(domain)
-    } catch (error) {
-      expect(error.message).toBe('Not implemented')
-    }
-  })
-
   it('It defines a "search" method', async () => {
     try {
       const domain = []

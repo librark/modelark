@@ -184,34 +184,4 @@ describe('MemoryRepository', () => {
     expect(result[3].name).toBe('Mark Moe')
     expect(result[4].name).toBe('John Doe')
   })
-
-  it('counts the entities present in the repository', async () => {
-    const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
-    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
-    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
-    repository.storer.data.default[item1.id] = item1
-    repository.storer.data.default[item2.id] = item2
-    repository.storer.data.default[item3.id] = item3
-
-    const result = await repository.count([])
-
-    expect(result).toBe(3)
-  })
-
-  it('counts the entities filtered by a domain', async () => {
-    const item1 = new Alpha({ id: uuid(), name: 'John Doe' })
-    const item2 = new Alpha({ id: uuid(), name: 'Richard Roe' })
-    const item3 = new Alpha({ id: uuid(), name: 'Mark Moe' })
-    repository.storer.data.default[item1.id] = item1
-    repository.storer.data.default[item2.id] = item2
-    repository.storer.data.default[item3.id] = item3
-
-    let domain = [['name', 'ilike', '%ar%']]
-    let result = await repository.count(domain)
-    expect(result).toBe(2)
-
-    domain = [['name', 'like', 'XYZ']]
-    result = await repository.count(domain)
-    expect(result).toBe(0)
-  })
 })
