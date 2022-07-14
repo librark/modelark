@@ -83,7 +83,7 @@ describe('SqlRepository', () => {
     expect(record.id).toEqual(id)
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('INSERT INTO namespace.elements (id, status, created_at, ' +
+      dedent('INSERT INTO "namespace"."elements" (id, status, created_at, ' +
         'updated_at, created_by, updated_by, name) VALUES\n' +
         '($1, $2, $3, $4, $5, $6, $7)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
@@ -125,7 +125,7 @@ describe('SqlRepository', () => {
     expect(records.length).toBe(3)
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('INSERT INTO namespace.elements (id, status, created_at, ' +
+      dedent('INSERT INTO "namespace"."elements" (id, status, created_at, ' +
         'updated_at, created_by, updated_by, name) VALUES\n' +
         '($1, $2, $3, $4, $5, $6, $7),\n' +
         '($8, $9, $10, $11, $12, $13, $14),\n' +
