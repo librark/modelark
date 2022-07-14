@@ -14,10 +14,10 @@ describe('Fiterer', () => {
 
   it('parses domain tuples', () => {
     const tuples = [
-      [['field', '=', 99], ['field = $1', 99]],
-      [['field', 'like', 'world'], ['field LIKE $1', 'world']],
-      [['field', 'ilike', 'world'], ['field ILIKE $1', 'world']],
-      [['field', 'contains', 99], ['$1 = ANY(field)', 99]]
+      [['field', '=', 99], ['"field" = $1', 99]],
+      [['field', 'like', 'world'], ['"field" LIKE $1', 'world']],
+      [['field', 'ilike', 'world'], ['"field" ILIKE $1', 'world']],
+      [['field', 'contains', 99], ['$1 = ANY("field")', 99]]
     ]
 
     for (const [tuple, expected] of tuples) {
@@ -28,7 +28,7 @@ describe('Fiterer', () => {
 
   it('parses single terms', () => {
     const domain = [['field', '=', 7]]
-    const expected = ['field = $1', [7]]
+    const expected = ['"field" = $1', [7]]
 
     const result = filterer.parse(domain)
 
@@ -45,18 +45,18 @@ describe('Fiterer', () => {
   it('parses multiple terms', () => {
     const testDomains = [
       [[['field', '=', 7], ['field2', '!=', 8]],
-        ['field = $1 AND field2 <> $2', [7, 8]]],
+        ['"field" = $1 AND "field2" <> $2', [7, 8]]],
       [[['field', '=', 7], ['field2', '!=', 8], ['field3', '>=', 9]],
-        ['field = $1 AND field2 <> $2 AND field3 >= $3', [7, 8, 9]]],
+        ['"field" = $1 AND "field2" <> $2 AND "field3" >= $3', [7, 8, 9]]],
       [['|', ['field', '=', 7], ['field2', '!=', 8], ['field3', '>=', 9]],
-        ['field = $1 OR field2 <> $2 AND field3 >= $3', [7, 8, 9]]],
+        ['"field" = $1 OR "field2" <> $2 AND "field3" >= $3', [7, 8, 9]]],
       [['|', ['field', '<', 7], '!', ['field2', '!=', 8], ['field3', '>=', 9]],
-        ['field < $1 OR NOT field2 <> $2 AND field3 >= $3', [7, 8, 9]]],
-      [['!', ['field', '=', 7]], ['NOT field = $1', [7]]],
-      [[['field', '>', 7]], ['field > $1', [7]]],
+        ['"field" < $1 OR NOT "field2" <> $2 AND "field3" >= $3', [7, 8, 9]]],
+      [['!', ['field', '=', 7]], ['NOT "field" = $1', [7]]],
+      [[['field', '>', 7]], ['"field" > $1', [7]]],
       [[['field', '>=', 7], ['field2', '<=', 8]],
-        ['field >= $1 AND field2 <= $2', [7, 8]]],
-      [[['field', 'in', [1, 2, 3]]], ['field = ANY($1)', [[1, 2, 3]]]]
+        ['"field" >= $1 AND "field2" <= $2', [7, 8]]],
+      [[['field', 'in', [1, 2, 3]]], ['"field" = ANY($1)', [[1, 2, 3]]]]
     ]
 
     for (const domain of testDomains) {

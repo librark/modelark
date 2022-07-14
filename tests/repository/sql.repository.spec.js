@@ -87,9 +87,10 @@ describe('SqlRepository', () => {
         '"created_at", "updated_at", "created_by", "updated_by"' +
         ', "name") VALUES\n($1, $2, $3, $4, $5, $6, $7)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
-        'status=excluded.status, created_at=excluded.created_at, ' +
-        'updated_at=excluded.updated_at, created_by=excluded.created_by, ' +
-        'updated_by=excluded.updated_by, name=excluded.name\n' +
+        '"status"=excluded."status", "created_at"=excluded."created_at", ' +
+        '"updated_at"=excluded."updated_at", ' +
+        '"created_by"=excluded."created_by", ' +
+        '"updated_by"=excluded."updated_by", "name"=excluded."name"\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
@@ -131,9 +132,10 @@ describe('SqlRepository', () => {
         '($8, $9, $10, $11, $12, $13, $14),\n' +
         '($15, $16, $17, $18, $19, $20, $21)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
-        'status=excluded.status, created_at=excluded.created_at, ' +
-        'updated_at=excluded.updated_at, created_by=excluded.created_by, ' +
-        'updated_by=excluded.updated_by, name=excluded.name\n' +
+        '"status"=excluded."status", "created_at"=excluded."created_at", ' +
+        '"updated_at"=excluded."updated_at", ' +
+        '"created_by"=excluded."created_by", ' +
+        '"updated_by"=excluded."updated_by", "name"=excluded."name"\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
@@ -154,8 +156,8 @@ describe('SqlRepository', () => {
     const [connection] = repository.connector.connections
     expect(records.length).toBe(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('DELETE FROM namespace.elements\n' +
-        'WHERE id IN ($1)\n' +
+      dedent('DELETE FROM "namespace"."elements"\n' +
+        'WHERE "id" IN ($1)\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual(['C001'])
@@ -171,8 +173,8 @@ describe('SqlRepository', () => {
     const [connection] = repository.connector.connections
     expect(records.length).toBe(3)
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('DELETE FROM namespace.elements\n' +
-        'WHERE id IN ($1, $2, $3)\n' +
+      dedent('DELETE FROM "namespace"."elements"\n' +
+        'WHERE "id" IN ($1, $2, $3)\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual(['C001', 'C002', 'C003'])
@@ -191,7 +193,7 @@ describe('SqlRepository', () => {
     expect(result.every(
       item => item.constructor.name === 'CustomEntity')).toBeTruthy()
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('SELECT * FROM namespace.elements\n' +
+      dedent('SELECT * FROM "namespace"."elements"\n' +
         'WHERE 1 = 1'
       ).trim())
     expect(connection.parameters[0]).toEqual([])
@@ -202,7 +204,7 @@ describe('SqlRepository', () => {
 
     const [connection] = repository.connector.connections
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('SELECT * FROM namespace.elements\n' +
+      dedent('SELECT * FROM "namespace"."elements"\n' +
         'WHERE 1 = 1\n' +
         '\n' +
         'LIMIT 2'
@@ -215,7 +217,7 @@ describe('SqlRepository', () => {
 
     const [connection] = repository.connector.connections
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('SELECT * FROM namespace.elements\n' +
+      dedent('SELECT * FROM "namespace"."elements"\n' +
         'WHERE 1 = 1\n' +
         '\n' +
         '\n' +
@@ -230,9 +232,9 @@ describe('SqlRepository', () => {
 
     const [connection] = repository.connector.connections
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('SELECT * FROM namespace.elements\n' +
+      dedent('SELECT * FROM "namespace"."elements"\n' +
         'WHERE 1 = 1\n' +
-        'ORDER BY created_at desc, id asc'
+        'ORDER BY "createdAt" DESC, "id" ASC'
       ).trim())
     expect(connection.parameters[0]).toEqual([])
   })
@@ -243,8 +245,8 @@ describe('SqlRepository', () => {
 
     const [connection] = repository.connector.connections
     expect(dedent(connection.statements[0]).trim()).toEqual(
-      dedent('SELECT * FROM namespace.elements\n' +
-        'WHERE created_at > $1 AND name = $2 \n'
+      dedent('SELECT * FROM "namespace"."elements"\n' +
+        'WHERE "createdAt" > $1 AND "name" = $2 \n'
       ).trim())
     expect(connection.parameters[0]).toEqual([0, 'John'])
   })
