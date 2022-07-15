@@ -84,13 +84,13 @@ describe('SqlRepository', () => {
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
       dedent('INSERT INTO "namespace"."elements" ("id", "status", ' +
-        '"created_at", "updated_at", "created_by", "updated_by"' +
+        '"createdAt", "updatedAt", "createdBy", "updatedBy"' +
         ', "name") VALUES\n($1, $2, $3, $4, $5, $6, $7)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
-        '"status"=excluded."status", "created_at"=excluded."created_at", ' +
-        '"updated_at"=excluded."updated_at", ' +
-        '"created_by"=excluded."created_by", ' +
-        '"updated_by"=excluded."updated_by", "name"=excluded."name"\n' +
+        '"status"=excluded."status", "createdAt"=excluded."createdAt", ' +
+        '"updatedAt"=excluded."updatedAt", ' +
+        '"createdBy"=excluded."createdBy", ' +
+        '"updatedBy"=excluded."updatedBy", "name"=excluded."name"\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
@@ -127,15 +127,15 @@ describe('SqlRepository', () => {
     expect(repository.connector.connections.length).toEqual(1)
     expect(dedent(connection.statements[0]).trim()).toEqual(
       dedent('INSERT INTO "namespace"."elements" ("id", "status", ' +
-        '"created_at", "updated_at", "created_by", "updated_by", "name") ' +
+        '"createdAt", "updatedAt", "createdBy", "updatedBy", "name") ' +
         'VALUES\n($1, $2, $3, $4, $5, $6, $7),\n' +
         '($8, $9, $10, $11, $12, $13, $14),\n' +
         '($15, $16, $17, $18, $19, $20, $21)\n' +
         'ON CONFLICT (id) DO UPDATE SET\n' +
-        '"status"=excluded."status", "created_at"=excluded."created_at", ' +
-        '"updated_at"=excluded."updated_at", ' +
-        '"created_by"=excluded."created_by", ' +
-        '"updated_by"=excluded."updated_by", "name"=excluded."name"\n' +
+        '"status"=excluded."status", "createdAt"=excluded."createdAt", ' +
+        '"updatedAt"=excluded."updatedAt", ' +
+        '"createdBy"=excluded."createdBy", ' +
+        '"updatedBy"=excluded."updatedBy", "name"=excluded."name"\n' +
         'RETURNING *;\n'
       ).trim())
     expect(connection.parameters[0]).toEqual([
