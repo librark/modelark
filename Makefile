@@ -9,7 +9,7 @@ test: ## Run the project's tests
 	npm run test
 
 standard: ## Format the project's source code with StandardJS
-	npx standard --fix
+	npx standard@next --verbose --fix
 
 push: ## Push git repository with its tags
 	git push && git push --tags
