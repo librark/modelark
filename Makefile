@@ -14,10 +14,10 @@ standard: ## Format the project's source code with StandardJS
 push: ## Push git repository with its tags
 	git push && git push --tags
 
-updates:
+updates: ## Check available dependency updates
 	npx npm-check-updates
 
-upgrade:
+upgrade: ## Upgrade project's dependecies
 	npx npm-check-updates --upgrade
 	npm install
 
