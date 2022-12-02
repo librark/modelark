@@ -99,9 +99,9 @@ describe('SqlGrouper', () => {
   })
 
   it('can filter the repository records before aggregation', async () => {
-    const domain = [['category', '=', 'special']]
+    const condition = [['category', '=', 'special']]
 
-    await grouper.group({ domain })
+    await grouper.group({ condition })
 
     const [connection] = repository.connector.connections
     expect(dedent(connection.statements[0]).trim()).toEqual(
