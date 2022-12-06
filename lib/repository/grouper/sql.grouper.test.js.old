@@ -60,7 +60,8 @@ describe('SqlGrouper', () => {
 
     repository = new SqlRepository({ model, locator, connector, clock })
 
-    grouper = new SqlGrouper({ repository })
+    grouper = new SqlGrouper()
+    grouper.set(repository)
   })
 
   it('can be instantiated', () => {
