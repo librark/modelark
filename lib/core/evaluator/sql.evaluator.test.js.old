@@ -36,7 +36,7 @@ describe('SqlEvaluator', () => {
     const result = await evaluator.evaluate(expression, environment)
 
     expect(result.statement).toEqual(
-      'FROM "Alpha" AS "Alpha" WHERE "name" ILIKE !#!')
+      'FROM "Alpha" AS "Alpha" WHERE "name" ILIKE $1')
     expect(result.values).toEqual(['%oe%'])
   })
 
@@ -55,7 +55,7 @@ describe('SqlEvaluator', () => {
 
     expect(result.statement).toEqual(
       'SELECT "name", "age" FROM "Alpha" AS "Alpha" ' +
-      'WHERE "name" ILIKE !#!')
+      'WHERE "name" ILIKE $1')
     expect(result.values).toEqual(['%uc%'])
   })
 
@@ -88,7 +88,7 @@ describe('SqlEvaluator', () => {
     expect(result.statement).toEqual(
       'FROM "Alpha" AS "Alpha" ' +
       'GROUP BY "city" ' +
-      'HAVING COUNT(*) > !#!')
+      'HAVING COUNT(*) > $1')
     expect(result.values).toEqual([1])
   })
 
@@ -102,14 +102,15 @@ describe('SqlEvaluator', () => {
           ['$where', ['$ilike', ':name', '%oe%'],
             ['$from', ['$as', 'Alpha', '@Alpha']]]]]
     ]
+    console.log('AGGREGATE:::')
     const result = await evaluator.evaluate(expression, environment)
 
     expect(result.statement).toEqual(
       'SELECT "city", COUNT("id") ' +
       'FROM "Alpha" AS "Alpha" ' +
-      'WHERE "name" ILIKE !#! ' +
+      'WHERE "name" ILIKE $1 ' +
       'GROUP BY "city" ' +
-      'HAVING COUNT("id") > !#!')
+      'HAVING COUNT("id") > $2')
     expect(result.values).toEqual([1, '%oe%'])
   })
 
@@ -162,7 +163,7 @@ describe('SqlEvaluator', () => {
       'SELECT "id", "name", "city", "age" ' +
       'FROM "Alpha" AS "Alpha" ' +
       'ORDER BY "city" DESC, "age" ' +
-      'LIMIT !#! OFFSET !#!')
+      'LIMIT $1 OFFSET $2')
     expect(result.values).toEqual([2, 1])
   })
 
