@@ -6,8 +6,8 @@ export declare class Entity {
 
 export declare class Abstract {
   _abstract<Type>(
-    parameters: {[key: string]: string} | any[],
+    parameters: {[key: string]: any} | any[],
     returnType: Type): InstanceType<Type>
   _abstract(
-    parameters: {[key: string]: string} | any[]): void
+    parameters: {[key: string]: any} | any[]): void
 }
