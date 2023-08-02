@@ -11,3 +11,5 @@ export declare class Abstract {
   _abstract(
     parameters: {[key: string]: any} | any[]): void
 }
+
+export * from './core/index.d.ts'
