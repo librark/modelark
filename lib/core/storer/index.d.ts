@@ -12,3 +12,12 @@ export declare class MemoryStorer extends Storer {
     field?: string
   })
 }
+
+export declare class JsonStorer extends Storer {
+  constructor(dependencies?: {
+    directory?: string,
+    collection?: string,
+    fs?: object,
+    path?: object
+  })
+}

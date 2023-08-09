@@ -1,8 +1,10 @@
+import { Connector } from '../core/connector/index.js'
+import { DataParser } from '../core/parser/index.js'
 import { Entity } from '../core/entity/index.js'
 import { Locator } from '../core/locator/index.js'
-import { DataParser } from '../core/parser/index.js'
-import { Storer } from '../core/storer/index.js'
 import { Sorter } from '../core/sorter/index.js'
+import { Storer } from '../core/storer/index.js'
+import { SqlParser } from '../core/parser/index.js'
 
 export declare abstract class RepositoryInterface {
   abstract add (items: Entity): Promise<Entity>
@@ -18,6 +20,14 @@ export declare abstract class Repository extends RepositoryInterface {
   get model (): Entity
 
   get collection (): string
+
+  add (items: Entity): Promise<Entity>
+  add (items: Array<Entity>): Promise<Array<Entity>>
+
+  remove (items: Entity): Promise<Entity>
+  remove (items: Array<Entity>): Promise<Array<Entity>>
+
+  query (expression: Array<any>, context?: object): Promise<any>
 
   search (
     condition: Array<any>,
@@ -57,6 +67,33 @@ export declare class MemoryRepository extends Repository {
     parser?: DataParser,
     storer?: Storer,
     sorter?: Sorter,
+    clock?: () => Date,
+    constrains?: object
+  })
+}
+
+export declare class JsonRepository extends MemoryRepository {
+  constructor(dependencies?: {
+    model?: Entity,
+    locator?: Locator,
+    parser?: DataParser,
+    sorter?: Sorter,
+    clock?: () => Date,
+    constrains?: object
+    directory?: string,
+    collection?: string,
+    fs?: object,
+    path?: object
+  })
+}
+
+export declare class SqlRepository extends Repository {
+  constructor(dependencies?: {
+    model?: Entity,
+    collection?: string,
+    locator?: Locator,
+    connector?: Connector,
+    parser?: SqlParser,
     clock?: () => Date,
     constrains?: object
   })
