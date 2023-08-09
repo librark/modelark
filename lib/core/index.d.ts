@@ -1,3 +1,6 @@
 export * from './abstract/index.js'
 export * from './auxiliary/index.js'
 export * from './entity/index.js'
+export * from './evaluator/index.js'
+export * from './locator/index.js'
+export * from './parser/index.js'

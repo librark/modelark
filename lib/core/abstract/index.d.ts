@@ -1,7 +1,7 @@
-export declare class Abstract {
-  _abstract<Type>(
+export declare abstract class Abstract {
+  protected abstract<Type>(
     parameters: {[key: string]: any} | any[],
     returnType: Type): InstanceType<Type>
-  _abstract(
+  protected abstract(
     parameters: {[key: string]: any} | any[]): void
 }
