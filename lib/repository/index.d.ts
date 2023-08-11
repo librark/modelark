@@ -51,6 +51,9 @@ extends RepositoryInterface<Model> {
     } & { many: true }
   ): Promise<Array<Array<Model>>>
 
+  create (items: Array<object>): Array<Model>
+  create (items: object): Model
+
   ensure (
     values: object,
     options: { field: string }
@@ -72,6 +75,9 @@ extends Repository<Model> {
     clock?: () => Date,
     constrains?: object
   })
+
+  load (items: Array<object>): Array<Model>
+  load (items: object): Model
 }
 
 export declare class JsonRepository<Model extends Entity>
