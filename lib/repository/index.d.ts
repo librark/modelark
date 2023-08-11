@@ -106,10 +106,40 @@ extends Repository<Model> {
 export declare class SqlsonRepository<Model extends Entity>
 extends SqlRepository<Model> {}
 
-export declare class Portal<Model extends Entity> extends Registry {
-  get (name: Model | string): Repository<Model>
+export declare abstract class Linker {
+  abstract setup (repositories: Array<Repository<Entity>>): void
 
-  set (resource: Repository<Model> | Array<Repository<Model>>): void
+  abstract query (expression: Array<any>): Promise<any>
+}
+
+export declare class OrdinaryLinker extends Linker {
+  setup (repositories: Array<Repository<Entity>>): void
+
+  query (expression: Array<any>): Promise<any>
+}
+
+export declare class SqlLinker extends Linker {
+  constructor ({
+    locator: Locator,
+    connector: Connector
+  })
+
+  setup (repositories: Array<Repository<Entity>>): void
+
+  query (expression: Array<any>): Promise<any>
+}
+
+export declare class Portal extends Registry {
+  constructor(dependencies?: {
+    repositories?: Array<Repository<Entity>>,
+    check?: boolean,
+    linker?: Linker
+  })
+
+  get (name: string): Repository<Entity>
+  get<Model extends Entity> (name: Model): Repository<Model>
+
+  set (resource: Repository<Entity> | Array<Repository<Entity>>): void
 
   query (expression: Array<any>): Promise<any>
 }
