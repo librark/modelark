@@ -2,67 +2,69 @@ import { Connector } from '../core/connector/index.js'
 import { DataParser } from '../core/parser/index.js'
 import { Entity } from '../core/entity/index.js'
 import { Locator } from '../core/locator/index.js'
+import { Registry } from '../core/registry/index.js'
 import { Sorter } from '../core/sorter/index.js'
-import { Storer } from '../core/storer/index.js'
 import { SqlParser } from '../core/parser/index.js'
+import { Storer } from '../core/storer/index.js'
 
-export declare abstract class RepositoryInterface {
-  abstract add (items: Entity): Promise<Entity>
-  abstract add (items: Array<Entity>): Promise<Array<Entity>>
+export declare abstract class RepositoryInterface<Model extends Entity> {
+  abstract add (items: Model): Promise<Model>
+  abstract add (items: Array<Model>): Promise<Array<Model>>
 
-  abstract remove (items: Entity): Promise<Entity>
-  abstract remove (items: Array<Entity>): Promise<Array<Entity>>
+  abstract remove (items: Model): Promise<Model>
+  abstract remove (items: Array<Model>): Promise<Array<Model>>
 
   abstract query (expression: Array<any>, context?: object): Promise<any>
 }
 
-export declare abstract class Repository extends RepositoryInterface {
-  get model (): Entity
+export declare abstract class Repository<Model extends Entity>
+extends RepositoryInterface<Model> {
+  get model (): Model
 
   get collection (): string
 
-  add (items: Entity): Promise<Entity>
-  add (items: Array<Entity>): Promise<Array<Entity>>
+  add (items: Model): Promise<Model>
+  add (items: Array<Model>): Promise<Array<Model>>
 
-  remove (items: Entity): Promise<Entity>
-  remove (items: Array<Entity>): Promise<Array<Entity>>
+  remove (items: Model): Promise<Model>
+  remove (items: Array<Model>): Promise<Array<Model>>
 
   query (expression: Array<any>, context?: object): Promise<any>
 
   search (
     condition: Array<any>,
     segment?: { limit?: number, offset?: number, order?: string }
-  ): Promise<Array<Entity>>
+  ): Promise<Array<Model>>
 
   find (
     values: object,
     options?: { field?: string, init?: boolean }
-  ): Promise<Entity>
+  ): Promise<Model>
   find (
     values: Array<object>,
     options?: { field?: string, init?: boolean }
-  ): Promise<Array<Entity>>
+  ): Promise<Array<Model>>
   find (
     values: object | Array<object>,
     options?: {
       field?: string, init?: boolean, many?: boolean
     } & { many: true }
-  ): Promise<Array<Array<Entity>>>
+  ): Promise<Array<Array<Model>>>
 
   ensure (
     values: object,
     options: { field: string }
-  ): Promise<Entity>
+  ): Promise<Model>
   ensure (
     values: Array<object>,
     options: { field: string }
-  ): Promise<Array<Entity>>
-
+  ): Promise<Array<Model>>
 }
 
-export declare class MemoryRepository extends Repository {
+export declare class MemoryRepository<Model extends Entity>
+extends Repository<Model> {
   constructor(dependencies?: {
-    model?: Entity,
+    model?: Model,
     locator?: Locator,
     parser?: DataParser,
     storer?: Storer,
@@ -72,9 +74,10 @@ export declare class MemoryRepository extends Repository {
   })
 }
 
-export declare class JsonRepository extends MemoryRepository {
+export declare class JsonRepository<Model extends Entity>
+extends MemoryRepository<Model> {
   constructor(dependencies?: {
-    model?: Entity,
+    model?: Model,
     locator?: Locator,
     parser?: DataParser,
     sorter?: Sorter,
@@ -87,9 +90,10 @@ export declare class JsonRepository extends MemoryRepository {
   })
 }
 
-export declare class SqlRepository extends Repository {
+export declare class SqlRepository<Model extends Entity>
+extends Repository<Model> {
   constructor(dependencies?: {
-    model?: Entity,
+    model?: Model,
     collection?: string,
     locator?: Locator,
     connector?: Connector,
@@ -97,4 +101,15 @@ export declare class SqlRepository extends Repository {
     clock?: () => Date,
     constrains?: object
   })
+}
+
+export declare class SqlsonRepository<Model extends Entity>
+extends SqlRepository<Model> {}
+
+export declare class Portal<Model extends Entity> extends Registry {
+  get (name: Model | string): Repository<Model>
+
+  set (resource: Repository<Model> | Array<Repository<Model>>): void
+
+  query (expression: Array<any>): Promise<any>
 }
