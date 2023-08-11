@@ -142,7 +142,7 @@ export declare class Portal extends Registry {
     linker?: Linker
   })
 
-  get<Model extends Entity> (name: Model): Repository<Model>
+  get<Model extends Entity> (name: new () => Model): Repository<Model>
   get (name: string): Repository<Entity>
 
   set (resource: Repository<Entity> | Array<Repository<Entity>>): void
