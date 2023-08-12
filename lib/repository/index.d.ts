@@ -62,6 +62,9 @@ extends RepositoryInterface<Model> {
     values: Array<object>,
     options: { field: string }
   ): Promise<Array<Model>>
+
+  load (items: Array<object>): Array<Model>
+  load (items: object): Model
 }
 
 export declare class MemoryRepository<Model extends Entity>
@@ -75,9 +78,6 @@ extends Repository<Model> {
     clock?: () => Date,
     constrains?: object
   })
-
-  load (items: Array<object>): Array<Model>
-  load (items: object): Model
 }
 
 export declare class JsonRepository<Model extends Entity>
