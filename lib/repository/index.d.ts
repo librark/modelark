@@ -45,11 +45,17 @@ extends RepositoryInterface<Model> {
     options?: { field?: string, init?: boolean }
   ): Promise<Model>
   find (
-    values: Array<any> | any,
+    values: Array<any>,
     options?: {
       field?: string, init?: boolean, many: boolean
     } & { many: true }
   ): Promise<Array<Array<Model>>>
+  find (
+    values: any,
+    options?: {
+      field?: string, init?: boolean, many: boolean
+    } & { many: true }
+  ): Promise<Array<Model>>
 
   create (items: Array<object>): Array<Model>
   create (items: object): Model
