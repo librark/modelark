@@ -37,19 +37,19 @@ extends RepositoryInterface<Model> {
   ): Promise<Array<Model>>
 
   find (
-    values: object,
-    options?: { field?: string, init?: boolean }
-  ): Promise<Model>
-  find (
-    values: Array<object>,
+    values: Array<any>,
     options?: { field?: string, init?: boolean }
   ): Promise<Array<Model>>
   find (
-    values: object | Array<object>,
+    values: Array<any> | any,
     options?: {
       field?: string, init?: boolean, many?: boolean
     } & { many: true }
   ): Promise<Array<Array<Model>>>
+  find (
+    values: any,
+    options?: { field?: string, init?: boolean }
+  ): Promise<Model>
 
   create (items: Array<object>): Array<Model>
   create (items: object): Model
