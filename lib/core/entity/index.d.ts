@@ -9,4 +9,8 @@ export declare class Entity {
   constructor(attributes: object)
 
   transition(state: object): this
+
+  static fields: {
+    [field: string]: { type: string, default?: any }
+  }
 }
