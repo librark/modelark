@@ -13,4 +13,6 @@ export declare class Entity {
   static fields: {
     [field: string]: { type: string, default?: any }
   }
+
+  static augmented: boolean
 }
