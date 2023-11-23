@@ -8,6 +8,8 @@ export declare class Entity {
 
   constructor(attributes: object)
 
+  initialize(attributes: object): this
+
   transition(state: object): this
 
   static fields: {
