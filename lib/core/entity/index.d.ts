@@ -14,5 +14,5 @@ export declare class Entity {
     [field: string]: { type: string, default?: any }
   }
 
-  static augmented: boolean
+  static structured: boolean
 }
