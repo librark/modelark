@@ -1,4 +1,8 @@
 export declare class Entity {
+
+  static fields: { [field: string]: { type: string, default?: any } }
+  static structured: boolean
+
   id: string
   status: string
   createdAt: Date
@@ -6,15 +10,15 @@ export declare class Entity {
   createdBy: string
   updatedBy: string
 
+  transitions: string[]
+
   constructor(attributes: object)
 
   initialize(attributes: object): this
 
   transition(state: object): this
 
-  static fields: {
-    [field: string]: { type: string, default?: any }
-  }
+  toJSON(): object
 
-  static structured: boolean
+  toStruct(): object
 }
