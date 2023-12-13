@@ -10,7 +10,7 @@ export declare class Entity {
   createdBy: string
   updatedBy: string
 
-  transitions: string[]
+  get transitions(): string[]
 
   constructor(attributes: object)
 
