@@ -154,4 +154,6 @@ export declare class Portal extends Registry {
   set (resource: Repository<Entity> | Array<Repository<Entity>>): void
 
   query (expression: Array<any>): Promise<any>
+
+  join (models: Array<Entity>): Promise<Array<any>>
 }
