@@ -148,12 +148,45 @@ export declare class Portal extends Registry {
     linker?: Linker
   })
 
-  get<Model extends Entity> (name: new () => Model): Repository<Model>
+  get<Model extends Entity> (
+    name: new (...args: any[]) => Model): Repository<Model>
   get (name: string): Repository<Entity>
 
   set (resource: Repository<Entity> | Array<Repository<Entity>>): void
 
   query (expression: Array<any>): Promise<any>
+
+  join<Left extends Entity, Join extends Entity, Right extends Entity> (
+    models: [
+      (new (...args: any[]) => Left),
+      (new (...args: any[]) => Join),
+      (new (...args: any[]) => Right)
+    ],
+    options?: {
+      conditions?: Array<any[]>,
+      segments?: Array<object>,
+      key?: string
+    }
+  ): Promise<Array<Left, Array<[Join, Right]>>>
+  join<Left extends Entity, Right extends Entity> (
+    models: [
+      (new (...args: any[]) => Left),
+      (new (...args: any[]) => Right)
+    ],
+    options?: {
+      conditions?: Array<any[]>,
+      segments?: Array<object>,
+      key?: string
+    }
+  ): Promise<Array<Left, Array<Right>>>
+  join(
+    models: Array<any>,
+    options?: {
+      conditions?: Array<any[]>,
+      segments?: Array<object>,
+      key?: string
+    }
+  ): Promise<Array<any>>
 
   join (models: Array<Entity>): Promise<Array<any>>
 }
