@@ -187,6 +187,4 @@ export declare class Portal extends Registry {
       key?: string
     }
   ): Promise<Array<any>>
-
-  join (models: Array<Entity>): Promise<Array<any>>
 }
