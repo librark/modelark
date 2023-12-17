@@ -34,28 +34,28 @@ extends RepositoryInterface<Model> {
   search (
     condition?: Array<any>,
     segment?: {
-      limit?: number, offset?: number, order?: string, lock?: string
+      limit?: number, offset?: number, order?: string, lock?: boolean | string
     }
   ): Promise<Array<Model>>
 
   find (
     values: Array<any>,
-    options?: { field?: string, init?: boolean, lock?: string }
+    options?: { field?: string, init?: boolean, lock?: boolean | string }
   ): Promise<Array<Model>>
   find (
     values: any,
-    options?: { field?: string, init?: boolean, lock?: string }
+    options?: { field?: string, init?: boolean, lock?: boolean | string }
   ): Promise<Model>
   find (
     values: Array<any>,
     options?: {
-      field?: string, init?: boolean, lock?: string, many: boolean
+      field?: string, init?: boolean, lock?: boolean | string, many: boolean
     } & { many: true }
   ): Promise<Array<Array<Model>>>
   find (
     values: any,
     options?: {
-      field?: string, init?: boolean, lock?: string, many: boolean
+      field?: string, init?: boolean, lock?: boolean | string, many: boolean
     } & { many: true }
   ): Promise<Array<Model>>
 
