@@ -7,14 +7,12 @@ export declare class Entity {
   status: string
   createdAt: Date
   updatedAt: Date
-  createdBy: string
-  updatedBy: string
+  createdBy?: string
+  updatedBy?: string
 
   get transitions(): string[]
 
   constructor(attributes: object)
-
-  initialize(attributes: object): this
 
   transition(state: object): this
 
