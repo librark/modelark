@@ -1,14 +1,12 @@
 export declare class Entity {
-
-  static fields: { [field: string]: { type: string, default?: any } }
-  static structured: boolean
-
   id: string
   status: string
   createdAt: Date
   updatedAt: Date
   createdBy?: string
   updatedBy?: string
+
+  static computed: string[]
 
   get transitions(): string[]
 
