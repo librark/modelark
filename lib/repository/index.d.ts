@@ -19,7 +19,7 @@ export declare abstract class RepositoryInterface<Model extends Entity> {
 
 export declare abstract class Repository<Model extends Entity>
 extends RepositoryInterface<Model> {
-  get model (): Model
+  get model (): new (...args: any[]) => Model
 
   get collection (): string
 
@@ -78,7 +78,7 @@ extends RepositoryInterface<Model> {
 export declare class MemoryRepository<Model extends Entity>
 extends Repository<Model> {
   constructor(dependencies?: {
-    model?: Model,
+    model?: new (...args: any[]) => Model,
     locator?: Locator,
     parser?: DataParser,
     storer?: Storer,
@@ -91,7 +91,7 @@ extends Repository<Model> {
 export declare class JsonRepository<Model extends Entity>
 extends MemoryRepository<Model> {
   constructor(dependencies?: {
-    model?: Model,
+    model?: new (...args: any[]) => Model,
     locator?: Locator,
     parser?: DataParser,
     sorter?: Sorter,
@@ -107,7 +107,7 @@ extends MemoryRepository<Model> {
 export declare class SqlRepository<Model extends Entity>
 extends Repository<Model> {
   constructor(dependencies?: {
-    model?: Model,
+    model?: new (...args: any[]) => Model,
     collection?: string,
     locator?: Locator,
     connector?: Connector,
@@ -169,7 +169,7 @@ export declare class Portal extends Registry {
       segments?: Array<object>,
       key?: string
     }
-  ): Promise<Array<Left, Array<[Join, Right]>>>
+  ): Promise<Array<[Left, Array<[Join, Right]>]>>
   join<Left extends Entity, Right extends Entity> (
     models: [
       (new (...args: any[]) => Left),
@@ -180,7 +180,7 @@ export declare class Portal extends Registry {
       segments?: Array<object>,
       key?: string
     }
-  ): Promise<Array<Left, Array<Right>>>
+  ): Promise<Array<[Left, Array<Right>]>>
   join(
     models: Array<any>,
     options?: {
