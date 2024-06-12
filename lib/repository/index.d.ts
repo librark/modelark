@@ -63,13 +63,13 @@ extends RepositoryInterface<Model> {
   create (items: object): Model
 
   ensure (
-    values: object,
-    options: { field: string, update?: string[] }
-  ): Promise<Model>
-  ensure (
     values: Array<object>,
     options: { field: string, update?: string[] }
   ): Promise<Array<Model>>
+  ensure (
+    values: object,
+    options: { field: string, update?: string[] }
+  ): Promise<Model>
 
   load (items: Array<object>): Array<Model>
   load (items: object): Model
