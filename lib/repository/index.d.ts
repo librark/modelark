@@ -40,22 +40,30 @@ extends RepositoryInterface<Model> {
 
   find (
     values: Array<any>,
-    options?: { field?: string, init?: boolean, lock?: boolean | string }
+    options?: {
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error
+    }
   ): Promise<Array<Model>>
   find (
     values: any,
-    options?: { field?: string, init?: boolean, lock?: boolean | string }
+    options?: {
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error
+    }
   ): Promise<Model>
   find (
     values: Array<any>,
     options?: {
-      field?: string, init?: boolean, lock?: boolean | string, many: boolean
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error, many: boolean
     } & { many: true }
   ): Promise<Array<Array<Model>>>
   find (
     values: any,
     options?: {
-      field?: string, init?: boolean, lock?: boolean | string, many: boolean
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error, many: boolean
     } & { many: true }
   ): Promise<Array<Model>>
 
