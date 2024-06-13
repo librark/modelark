@@ -64,11 +64,11 @@ extends RepositoryInterface<Model> {
 
   ensure (
     values: Array<object>,
-    options: { field: string, update?: string[] }
+    options: { field: string, update?: boolean | string[] }
   ): Promise<Array<Model>>
   ensure (
     values: object,
-    options: { field: string, update?: string[] }
+    options: { field: string, update?: boolean | string[] }
   ): Promise<Model>
 
   load (items: Array<object>): Array<Model>
