@@ -131,13 +131,13 @@ extends SqlRepository<Model> {}
 export declare abstract class Linker {
   abstract setup (repositories: Array<Repository<Entity>>): void
 
-  abstract query (expression: Array<any>): Promise<any>
+  abstract query (expression: Array<any>, context?: object): Promise<any>
 }
 
 export declare class OrdinaryLinker extends Linker {
   setup (repositories: Array<Repository<Entity>>): void
 
-  query (expression: Array<any>): Promise<any>
+  query (expression: Array<any>, context?: object): Promise<any>
 }
 
 export declare class SqlLinker extends Linker {
@@ -148,7 +148,7 @@ export declare class SqlLinker extends Linker {
 
   setup (repositories: Array<Repository<Entity>>): void
 
-  query (expression: Array<any>): Promise<any>
+  query (expression: Array<any>, context?: object): Promise<any>
 }
 
 export declare class Portal extends Registry {
@@ -164,7 +164,7 @@ export declare class Portal extends Registry {
 
   set (resource: Repository<Entity> | Array<Repository<Entity>>): void
 
-  query (expression: Array<any>): Promise<any>
+  query (expression: Array<any>, context?: object): Promise<any>
 
   join<Left extends Entity, Join extends Entity, Right extends Entity> (
     models: [
