@@ -66,6 +66,20 @@ extends RepositoryInterface<Model> {
       error?: string | Error, many: boolean
     } & { many: true }
   ): Promise<Array<Model>>
+  find (
+    values: any,
+    options?: {
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error, dict: boolean
+    } & { dict: true }
+  ): Promise<Object.<string, Model>>
+  find (
+    values: any,
+    options?: {
+      field?: string, init?: boolean, lock?: boolean | string,
+      error?: string | Error, many: boolean, dict: boolean
+    } & { many: true, dict: true }
+  ): Promise<Object.<string, Array<Model>>>
 
   create (items: Array<object>): Array<Model>
   create (items: object): Model
