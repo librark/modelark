@@ -81,20 +81,20 @@ extends RepositoryInterface<Model> {
     } & { many: true, dict: true }
   ): Promise<Object.<string, Array<Model>>>
 
-  create (items: Array<object>): Array<Model>
-  create (items: object): Model
+  create (items: Array<any>): Array<Model>
+  create (items: any): Model
 
   ensure (
-    values: Array<object>,
+    values: Array<any>,
     options: { field: string, update?: boolean | string[] }
   ): Promise<Array<Model>>
   ensure (
-    values: object,
+    values: any,
     options: { field: string, update?: boolean | string[] }
   ): Promise<Model>
 
-  load (items: Array<object>): Array<Model>
-  load (items: object): Model
+  load (items: Array<any>): Array<Model>
+  load (items: any): Model
 }
 
 export declare class MemoryRepository<Model extends Entity>
@@ -106,7 +106,7 @@ extends Repository<Model> {
     storer?: Storer,
     sorter?: Sorter,
     clock?: () => Date,
-    constrains?: object
+    constrains?: any
   })
 }
 
@@ -118,11 +118,11 @@ extends MemoryRepository<Model> {
     parser?: DataParser,
     sorter?: Sorter,
     clock?: () => Date,
-    constrains?: object
+    constrains?: any,
     directory?: string,
     collection?: string,
-    fs?: object,
-    path?: object
+    fs?: any,
+    path?: any
   })
 }
 
@@ -135,7 +135,7 @@ extends Repository<Model> {
     connector?: Connector,
     parser?: SqlParser,
     clock?: () => Date,
-    constrains?: object
+    constrains?: any
   })
 }
 
@@ -188,7 +188,7 @@ export declare class Portal extends Registry {
     ],
     options?: {
       conditions?: Array<any[]>,
-      segments?: Array<object>,
+      segments?: Array<any>,
       key?: string
     }
   ): Promise<Array<[Left, Array<[Join, Right]>]>>
@@ -199,7 +199,7 @@ export declare class Portal extends Registry {
     ],
     options?: {
       conditions?: Array<any[]>,
-      segments?: Array<object>,
+      segments?: Array<any>,
       key?: string
     }
   ): Promise<Array<[Left, Array<Right>]>>
@@ -207,7 +207,7 @@ export declare class Portal extends Registry {
     models: Array<any>,
     options?: {
       conditions?: Array<any[]>,
-      segments?: Array<object>,
+      segments?: Array<any>,
       key?: string
     }
   ): Promise<Array<any>>
