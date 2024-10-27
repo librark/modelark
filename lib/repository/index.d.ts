@@ -35,7 +35,7 @@ extends RepositoryInterface<Model> {
     condition?: Array<any>,
     segment: {
       limit?: number, offset?: number, order?: string,
-      lock?: boolean | string, index: string
+      lock?: boolean | string, index: boolean | string
     }
   ): Promise<Object<string, Model>>
   search (
