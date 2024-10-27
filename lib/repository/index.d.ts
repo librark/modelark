@@ -33,6 +33,13 @@ extends RepositoryInterface<Model> {
 
   search (
     condition?: Array<any>,
+    segment: {
+      limit?: number, offset?: number, order?: string,
+      lock?: boolean | string, index: string
+    }
+  ): Promise<Object<string, Model>>
+  search (
+    condition?: Array<any>,
     segment?: {
       limit?: number, offset?: number, order?: string, lock?: boolean | string
     }
