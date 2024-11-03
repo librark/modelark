@@ -1,5 +1,5 @@
 export declare class Filterer {
-  parse (expression: any[]): Promise<any>
+  parse (expression: any[]): (object: any) => Promise<any>
 }
 
 export declare class SqlFilterer {
