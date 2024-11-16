@@ -33,17 +33,17 @@ extends RepositoryInterface<Model> {
 
   search (
     condition?: Array<any>,
-    segment: {
-      limit?: number, offset?: number, order?: string,
-      lock?: boolean | string, index: boolean | string
-    }
-  ): Promise<Object<string, Model>>
-  search (
-    condition?: Array<any>,
     segment?: {
       limit?: number, offset?: number, order?: string, lock?: boolean | string
     }
   ): Promise<Array<Model>>
+  search (
+    condition?: Array<any>,
+    segment?: {
+      limit?: number, offset?: number, order?: string,
+      lock?: boolean | string, index: boolean | string
+    }
+  ): Promise<{[key: string]: Model}>
 
   find (
     values: Array<any>,
@@ -79,14 +79,14 @@ extends RepositoryInterface<Model> {
       field?: string, init?: boolean, lock?: boolean | string,
       error?: string | Error, dict: boolean
     } & { dict: true }
-  ): Promise<Object.<string, Model>>
+  ): Promise<{[key: string]: Model}>
   find (
     values: any,
     options?: {
       field?: string, init?: boolean, lock?: boolean | string,
       error?: string | Error, many: boolean, dict: boolean
     } & { many: true, dict: true }
-  ): Promise<Object.<string, Array<Model>>>
+  ): Promise<{[key: string]: Array<Model>}>
 
   create (items: Array<any>): Array<Model>
   create (items: any): Model
