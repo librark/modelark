@@ -107,7 +107,7 @@ extends RepositoryInterface<Model> {
 export declare class MemoryRepository<Model extends Entity>
 extends Repository<Model> {
   constructor(dependencies?: {
-    model?: new (...args: any[]) => Model,
+    model?: Model | (new (...args: any[]) => Model),
     locator?: Locator,
     parser?: DataParser,
     storer?: Storer,
@@ -120,7 +120,7 @@ extends Repository<Model> {
 export declare class JsonRepository<Model extends Entity>
 extends MemoryRepository<Model> {
   constructor(dependencies?: {
-    model?: new (...args: any[]) => Model,
+    model?: Model | (new (...args: any[]) => Model),
     locator?: Locator,
     parser?: DataParser,
     sorter?: Sorter,
@@ -136,7 +136,7 @@ extends MemoryRepository<Model> {
 export declare class SqlRepository<Model extends Entity>
 extends Repository<Model> {
   constructor(dependencies?: {
-    model?: new (...args: any[]) => Model,
+    model?: Model | (new (...args: any[]) => Model),
     collection?: string,
     locator?: Locator,
     connector?: Connector,
