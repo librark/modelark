@@ -1,6 +1,6 @@
 {
   "name": "@knowark/modelarkjs",
-  "version": "0.19.4",
+  "version": "0.19.5",
   "description": "Models Definition and Application Data Access Library",
   "main": "lib/index.js",
   "type": "module",
