@@ -172,6 +172,7 @@ export declare class SqlLinker extends Linker {
   query (expression: Array<any>, context?: object): Promise<any>
 }
 
+type Relation<R extends Entity> = new (...args: any[]) => R;
 export declare class Portal extends Registry {
   constructor(dependencies?: {
     repositories?: Array<Repository<Entity>>,
@@ -218,4 +219,10 @@ export declare class Portal extends Registry {
       key?: string
     }
   ): Promise<Array<any>>
+
+  gather<Model extends Entity, Relations extends Relation<Entity>[]>(
+    model: (new (...args: any[]) => Model),
+    condition: Array<any[]>,
+    join: [...Relations],
+  ): Promise<[Model, ...Relations][]>
 }
