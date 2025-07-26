@@ -222,7 +222,7 @@ export declare class Portal extends Registry {
 
   gather<Model extends Entity, Relations extends Relation<Entity>[]>(
     model: (new (...args: any[]) => Model),
-    condition: Array<any[]>,
+    condition: Array<any>,
     join: [...Relations],
   ): Promise<[Model, ...{[K in keyof Relations]: Relations[K] extends
     Relation<infer Instance> ? Instance : never}][]>
