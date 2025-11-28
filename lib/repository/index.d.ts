@@ -146,9 +146,6 @@ extends Repository<Model> {
   })
 }
 
-export declare class SqlsonRepository<Model extends Entity>
-extends SqlRepository<Model> {}
-
 export declare abstract class Linker {
   abstract setup (repositories: Array<Repository<Entity>>): void
 
