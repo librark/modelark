@@ -105,3 +105,6 @@ dist
 
 # commit message
 .gitmessage
+
+# VS Code settings
+.vscode/*
