@@ -107,4 +107,4 @@ dist
 .gitmessage
 
 # VS Code settings
-.vscode/*
+.vscode
