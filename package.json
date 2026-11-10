@@ -24,7 +24,20 @@
     "url": "https://github.com/knowark/modelarkjs/issues"
   },
   "jest": {
-    "transform": {}
+    "transform": {},
+    "collectCoverageFrom": [
+      "lib/**/*.js",
+      "!lib/**/*.test.js",
+      "!lib/**/fixtures/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
   },
   "standard": {
     "ignore": [

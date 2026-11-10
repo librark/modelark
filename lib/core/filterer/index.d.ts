@@ -3,7 +3,5 @@ export declare class Filterer {
 }
 
 export declare class SqlFilterer {
-  constructor(dependencies?: { tables?: Array<string> })
-
-  parse (expression: any[]): Promise<[string, any[]]>
+  parse (expression: any[]): () => Promise<[string | null, any]>
 }

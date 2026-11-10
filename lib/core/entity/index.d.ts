@@ -3,14 +3,19 @@ export declare class Entity {
   status: string
   createdAt: Date
   updatedAt: Date
-  createdBy?: string
-  updatedBy?: string
+  createdBy: string | null
+  updatedBy: string | null
 
   static computed: string[]
 
-  get transitions(): string[]
+  static persisted: string[]
 
-  constructor(attributes: object)
+  static build<Model extends Entity>(
+    this: new (...args: any[]) => Model, attributes?: object): Model
+
+  get transitions(): string[] | undefined
+
+  constructor(attributes?: object)
 
   transition(intake: object): this
 

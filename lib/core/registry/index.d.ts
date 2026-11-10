@@ -4,9 +4,9 @@ export declare class Registry {
     check?: boolean
   })
 
-  get (name: string): any
+  get (name: string | Function | object): any
 
-  set (resource: object | Array<object>, key: string): void
+  set (resource: object | Array<object>, key?: string | null): void
 
   map (resource: object | Array<object>): void
 

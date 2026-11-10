@@ -7,18 +7,7 @@ import { Sorter } from '../core/sorter/index.js'
 import { SqlParser } from '../core/parser/index.js'
 import { Storer } from '../core/storer/index.js'
 
-export declare abstract class RepositoryInterface<Model extends Entity> {
-  abstract add (items: Model): Promise<Model>
-  abstract add (items: Array<Model>): Promise<Array<Model>>
-
-  abstract remove (items: Model): Promise<Model>
-  abstract remove (items: Array<Model>): Promise<Array<Model>>
-
-  abstract query (expression: Array<any>, context?: object): Promise<any>
-}
-
-export declare abstract class Repository<Model extends Entity>
-extends RepositoryInterface<Model> {
+export declare abstract class Repository<Model extends Entity> {
   get model (): new (...args: any[]) => Model
 
   get collection (): string
@@ -112,8 +101,7 @@ extends Repository<Model> {
     parser?: DataParser,
     storer?: Storer,
     sorter?: Sorter,
-    clock?: () => Date,
-    constrains?: any
+    clock?: () => Date
   })
 }
 
@@ -125,7 +113,6 @@ extends MemoryRepository<Model> {
     parser?: DataParser,
     sorter?: Sorter,
     clock?: () => Date,
-    constrains?: any,
     directory?: string,
     collection?: string,
     fs?: any,
@@ -141,32 +128,31 @@ extends Repository<Model> {
     locator?: Locator,
     connector?: Connector,
     parser?: SqlParser,
-    clock?: () => Date,
-    constrains?: any
+    clock?: () => Date
   })
 }
 
 export declare abstract class Linker {
-  abstract setup (repositories: Array<Repository<Entity>>): void
+  abstract setup (repositories: Array<Repository<Entity>>): this
 
-  abstract query (expression: Array<any>, context?: object): Promise<any>
+  abstract query (expression: Array<any>, context?: object | null): Promise<any>
 }
 
 export declare class OrdinaryLinker extends Linker {
-  setup (repositories: Array<Repository<Entity>>): void
+  setup (repositories: Array<Repository<Entity>>): this
 
-  query (expression: Array<any>, context?: object): Promise<any>
+  query (expression: Array<any>, context?: object | null): Promise<any>
 }
 
 export declare class SqlLinker extends Linker {
-  constructor ({
+  constructor (dependencies: {
     locator: Locator,
     connector: Connector
   })
 
-  setup (repositories: Array<Repository<Entity>>): void
+  setup (repositories: Array<Repository<Entity>>): this
 
-  query (expression: Array<any>, context?: object): Promise<any>
+  query (expression: Array<any>, context?: object | null): Promise<any>
 }
 
 type Relation<R extends Entity> = new (...args: any[]) => R;
@@ -183,7 +169,17 @@ export declare class Portal extends Registry {
 
   set (resource: Repository<Entity> | Array<Repository<Entity>>): void
 
-  query (expression: Array<any>, context?: object): Promise<any>
+  query (expression: Array<any>, context?: object | null): Promise<any>
+
+  add<Model extends Entity> (
+    items: Array<Model>): Promise<Array<Model>>
+  add<Model extends Entity> (
+    items: Model): Promise<Model>
+
+  remove<Model extends Entity> (
+    items: Array<Model>): Promise<Array<Model | null>>
+  remove<Model extends Entity> (
+    items: Model): Promise<Model | null>
 
   join<Left extends Entity, Join extends Entity, Right extends Entity> (
     models: [

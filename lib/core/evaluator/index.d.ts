@@ -5,5 +5,10 @@ export declare class Environment {
 }
 
 export declare class Evaluator {
-  evaluate (expression: any[], environment: Environment): Promise<any>
+  evaluate (expression: any, environment: Environment): Promise<any>
+}
+
+export declare const baseOperators: {
+  __namespaces__: string[]
+  [operator: string]: any
 }

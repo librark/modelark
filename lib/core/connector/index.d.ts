@@ -1,9 +1,9 @@
 export declare abstract class Connector {
-  query (): Promise<Connection>
+  get (): Promise<Connection>
 
   put (connection: Connection): Promise<void>
 }
 
-export declare abstract class Connection {
+export declare class Connection {
   query (statement: string, parameters: object): Promise<object>
 }
